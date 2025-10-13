@@ -11,9 +11,14 @@
 <body>
     <h1>PixPointSpy</h1>
 
-    <button id="newImageBtn">New Image</button>
-    <button id="pixelateBtn">Pixelate</button>
+    <!-- Controls -->
+    <div>
+        <button id="newImageBtn">New Image</button>
+        <input type="number" id="pixelInput" min="2" max="256" value="32">
+        <button id="pixelateBtn">Pixelate</button>
+    </div>
 
+    <!-- Images -->
     <div>
         <h3>Original Image</h3>
         <img id="mainImage" src="" alt="Random image from Picsum">
@@ -23,33 +28,38 @@
         <img id="pixelatedImage" src="" alt="Pixelated version will appear here">
     </div>
 
-    <script>
-        let currentImageUrl = '';
-        let currentImageId = null;
+  <script>
+    let currentImageUrl = '';
+    let currentImageId = null;
 
-        async function loadRandomImage() {
-            const response = await fetch('/random-image');
-            const data = await response.json();
-            currentImageUrl = data.url;
-            currentImageId = data.id;
-            document.getElementById('mainImage').src = currentImageUrl;
-            document.getElementById('pixelatedImage').src = '';
-        }
+    async function loadRandomImage() {
+      const response = await fetch('/random-image');
+      const data = await response.json();
+      currentImageUrl = data.url;
+      currentImageId = data.id;
+      document.getElementById('mainImage').src = currentImageUrl;
+      document.getElementById('pixelatedImage').src = '';
+    }
 
-        async function pixelateCurrentImage() {
-            if (!currentImageUrl) return alert('No image loaded yet!');
-            const pixelCount = 32;
-            const response = await fetch(`/pixelate-image?url=${encodeURIComponent(currentImageUrl)}&pixels=${pixelCount}`);
-            const data = await response.json();
-            document.getElementById('pixelatedImage').src = data.pixelated;
-        }
+    async function pixelateCurrentImage() {
+      if (!currentImageUrl) return alert('No image loaded yet!');
+      const pixelCount = parseInt(document.getElementById('pixelInput').value);
 
+      if (isNaN(pixelCount) || pixelCount < 2) {
+        alert("Pixel count must be at least 2.");
+        return;
+      }
 
-        document.getElementById('newImageBtn').addEventListener('click', loadRandomImage);
-        document.getElementById('pixelateBtn').addEventListener('click', pixelateCurrentImage);
+      const response = await fetch(`/pixelate-image?url=${encodeURIComponent(currentImageUrl)}&pixels=${pixelCount}`);
+      const data = await response.json();
+      document.getElementById('pixelatedImage').src = data.pixelated;
+    }
 
-        window.onload = loadRandomImage;
-    </script>
+    document.getElementById('newImageBtn').addEventListener('click', loadRandomImage);
+    document.getElementById('pixelateBtn').addEventListener('click', pixelateCurrentImage);
+
+    window.onload = loadRandomImage;
+  </script>
 
 </body>
 

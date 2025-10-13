@@ -14,7 +14,13 @@
     <!-- Controls -->
     <div>
         <button id="newImageBtn">New Image</button>
-        <input type="number" id="pixelInput" min="2" max="256" value="32">
+    </div>
+    <div>
+        <label for="pixelSlider">Pixel grid:</label>
+        <input type="range" id="pixelSlider" min="2" max="128" step="1" value="32">
+        <span id="pixelValue">32</span>
+    </div>
+    </div>
         <button id="pixelateBtn">Pixelate</button>
     </div>
 
@@ -28,39 +34,7 @@
         <img id="pixelatedImage" src="" alt="Pixelated version will appear here">
     </div>
 
-  <script>
-    let currentImageUrl = '';
-    let currentImageId = null;
-
-    async function loadRandomImage() {
-      const response = await fetch('/random-image');
-      const data = await response.json();
-      currentImageUrl = data.url;
-      currentImageId = data.id;
-      document.getElementById('mainImage').src = currentImageUrl;
-      document.getElementById('pixelatedImage').src = '';
-    }
-
-    async function pixelateCurrentImage() {
-      if (!currentImageUrl) return alert('No image loaded yet!');
-      const pixelCount = parseInt(document.getElementById('pixelInput').value);
-
-      if (isNaN(pixelCount) || pixelCount < 2) {
-        alert("Pixel count must be at least 2.");
-        return;
-      }
-
-      const response = await fetch(`/pixelate-image?url=${encodeURIComponent(currentImageUrl)}&pixels=${pixelCount}`);
-      const data = await response.json();
-      document.getElementById('pixelatedImage').src = data.pixelated;
-    }
-
-    document.getElementById('newImageBtn').addEventListener('click', loadRandomImage);
-    document.getElementById('pixelateBtn').addEventListener('click', pixelateCurrentImage);
-
-    window.onload = loadRandomImage;
-  </script>
-
+    <script src="static/javascript.js"></script>
 </body>
 
 </html>

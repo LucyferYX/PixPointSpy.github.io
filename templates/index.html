@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="/static/icon.png" rel="icon">
+    <link href="/static/styles.css" rel="stylesheet">
+    <title>PixPointSpy</title>
+</head>
+
+<body>
+    <h1>PixPointSpy</h1>
+
+    <button id="newImageBtn">New Image</button>
+    <div>
+        <img id="mainImage" src="" alt="Random image from Picsum">
+    </div>
+
+    <script>
+        async function loadRandomImage() {
+            try {
+                const response = await fetch('/random-image');
+                const data = await response.json();
+                const img = document.getElementById('mainImage');
+                img.src = data.url + '?t=' + new Date().getTime(); // Add timestamp to avoid browser caching
+            } catch (err) {
+                console.error('Error fetching random image:', err);
+            }
+        }
+
+        document.getElementById('newImageBtn').addEventListener('click', loadRandomImage);
+
+        // Load a random image on page load
+        window.onload = loadRandomImage;
+    </script>
+
+</body>
+
+</html>

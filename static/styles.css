@@ -20,7 +20,7 @@ button {
     background-color: #007BFF;
     color: white;
     cursor: pointer;
-    transition: background-color 0.2s;
+    margin: 5px;
 }
 
 button:hover {

@@ -12,25 +12,42 @@
     <h1>PixPointSpy</h1>
 
     <button id="newImageBtn">New Image</button>
+    <button id="pixelateBtn">Pixelate</button>
+
     <div>
+        <h3>Original Image</h3>
         <img id="mainImage" src="" alt="Random image from Picsum">
+    </div>
+    <div>
+        <h3>Pixelated Image</h3>
+        <img id="pixelatedImage" src="" alt="Pixelated version will appear here">
     </div>
 
     <script>
+        let currentImageUrl = '';
+        let currentImageId = null;
+
         async function loadRandomImage() {
-            try {
-                const response = await fetch('/random-image');
-                const data = await response.json();
-                const img = document.getElementById('mainImage');
-                img.src = data.url + '?t=' + new Date().getTime(); // Add timestamp to avoid browser caching
-            } catch (err) {
-                console.error('Error fetching random image:', err);
-            }
+            const response = await fetch('/random-image');
+            const data = await response.json();
+            currentImageUrl = data.url;
+            currentImageId = data.id;
+            document.getElementById('mainImage').src = currentImageUrl;
+            document.getElementById('pixelatedImage').src = '';
         }
 
-        document.getElementById('newImageBtn').addEventListener('click', loadRandomImage);
+        async function pixelateCurrentImage() {
+            if (!currentImageUrl) return alert('No image loaded yet!');
+            const pixelCount = 32;
+            const response = await fetch(`/pixelate-image?url=${encodeURIComponent(currentImageUrl)}&pixels=${pixelCount}`);
+            const data = await response.json();
+            document.getElementById('pixelatedImage').src = data.pixelated;
+        }
 
-        // Load a random image on page load
+
+        document.getElementById('newImageBtn').addEventListener('click', loadRandomImage);
+        document.getElementById('pixelateBtn').addEventListener('click', pixelateCurrentImage);
+
         window.onload = loadRandomImage;
     </script>
 

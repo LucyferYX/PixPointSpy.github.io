@@ -11,6 +11,12 @@ body {
     margin-top: 40px;
 }
 
+.navbar {
+    background-color: #f5dce8;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
 img {
     max-width: 90%;
     height: auto;
@@ -35,4 +41,34 @@ button {
 
 button:hover {
     background-color: #0056b3;
+}
+
+#loadingOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+#loadingOverlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.loading-text {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
 }

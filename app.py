@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from io import BytesIO
 from PIL import Image
-import requests, base64, random
+import requests, base64, random, time
 
 app = Flask(__name__)
 
@@ -9,6 +9,14 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/game')
+def game():
+    return render_template('game.html')
+
+@app.route('/statistics')
+def statistics():
+    return render_template('statistics.html')
 
 
 @app.route('/random-image')
@@ -21,20 +29,41 @@ def random_image():
     return jsonify({'url': img_url, 'id': img_id})
 
 
+def fetch_image_safe(url, retries=3):
+    for _ in range(retries):
+        try:
+            r = requests.get(url, timeout=5)
+            if r.status_code == 200 and "image" in r.headers.get("Content-Type", ""):
+                return r
+        except Exception:
+            pass
+        time.sleep(0.5)
+    return None
+
+
 @app.route('/pixelate-image')
 def pixelate_image():
-    # Get image URL from request
     image_url = request.args.get('url')
     if not image_url:
         return jsonify({'error': 'Missing URL'}), 400
 
     # Pixelation level
-    # pixel_size = int(request.args.get('pixels', 32))
     pixel_size = max(1, min(int(request.args.get('pixels', 32)), 512))
 
     # Download image, get its size
-    response = requests.get(image_url)
+    response = requests.get(image_url, timeout=5)
+
+    # Verify the response is an image
+    content_type = response.headers.get("Content-Type", "")
+    if "image" not in content_type or response.status_code != 200:
+        print(f"⚠️ Invalid image response from {image_url} ({response.status_code})")
+        return jsonify({'error': 'Invalid image data from source'}), 500
+    
+    response = fetch_image_safe(image_url)
+    if not response:
+        return jsonify({'error': 'Could not fetch a valid image'}), 500
     image = Image.open(BytesIO(response.content))
+
     width, height = image.size
 
     # Downscale and upscale (pixelate)

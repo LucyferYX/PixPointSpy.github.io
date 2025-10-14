@@ -28,13 +28,15 @@
     </div>
 
     <!-- Images -->
-    <div>
-        <h3>Original Image</h3>
-        <img id="mainImage" src="" alt="Random image from Picsum">
-    </div>
-    <div>
-        <h3>Pixelated Image</h3>
-        <img id="pixelatedImage" src="" alt="Pixelated version will appear here">
+    <div style="display: flex; justify-content: center; gap: 40px;">
+        <div>
+            <h3>Original</h3>
+            <canvas id="canvasOriginal"></canvas>
+        </div>
+        <div>
+            <h3>Find the Difference</h3>
+            <canvas id="canvasAltered" style="cursor: crosshair;"></canvas>
+        </div>
     </div>
 
     <script src="static/javascript.js"></script>

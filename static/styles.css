@@ -1,5 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
+    background-image: url("background.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    background-size: 100% 100%;
+    /* font-family: Arial, sans-serif; */
+    font-family: "Josefin Sans", sans-serif;
     text-align: center;
     margin-top: 40px;
 }
@@ -28,10 +35,4 @@ button {
 
 button:hover {
     background-color: #0056b3;
-}
-
-input[type="number"] {
-    width: 100px;
-    border: 1px solid #ccc;
-    text-align: center;
 }

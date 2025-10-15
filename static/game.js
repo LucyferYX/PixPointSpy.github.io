@@ -273,7 +273,6 @@ function surrenderGame() {
     if (!gridInfo || !gameActive) 
         return;
 
-    // Stop the game
     gameActive = false;
 
     const canvas = document.getElementById('canvasAltered');
@@ -282,7 +281,6 @@ function surrenderGame() {
     const cellWidth = canvas.width / gridInfo.w;
     const cellHeight = canvas.height / gridInfo.h;
 
-    // Redraw altered image
     const img = new Image();
     img.src = canvas.dataset.src;
     img.onload = () => {
@@ -290,7 +288,6 @@ function surrenderGame() {
         ctx.imageSmoothingEnabled = false;
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        // Highlight the altered pixel
         ctx.lineWidth = 3;
         ctx.strokeStyle = 'red';
         ctx.strokeRect(

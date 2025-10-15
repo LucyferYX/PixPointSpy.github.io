@@ -40,15 +40,15 @@ footer {
 
 /* Game cards */
 .game-card {
-    background: #f9f5fc;
-    border: 2px solid #e6d7f2;
-    border-radius: 15px;
+    background: #f9f5fc !important;
+    border: 2px solid #e6d7f2 !important;
+    border-radius: 30px !important;
 }
 
 .info-card {
-    background: #fef6f8;
-    border: 2px solid #f7cad0;
-    border-radius: 15px;
+    background: #fef6f8 !important;
+    border: 2px solid #f7cad0 !important;
+    border-radius: 30px !important;
 }
 
 .row > [class*='col-'] {
@@ -72,7 +72,7 @@ footer {
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.5);
     padding: 10px;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+    box-shadow: 0px 2px 10px rgba(38, 29, 41, 0.312) !important;
 }
 
 canvas {
@@ -122,18 +122,18 @@ canvas {
 }
 
 .stat-divider {
-    border-top: 1px solid rgba(0,0,0,0.2);
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
     margin: 10px 0;
 }
 
 .start-btn {
-    background-color: #e06fa8;
+    background-color: #f5dce8 !important;
     border: none;
     transition: all 0.2s ease-in-out;
 }
 
 .start-btn:hover {
-    background-color: #c95f95;
+    background-color: #c95f95 !important;
     transform: scale(1.03);
 }
 

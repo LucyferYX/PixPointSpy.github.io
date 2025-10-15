@@ -127,7 +127,7 @@ async function nextLevel() {
 
 function updateStatsCard() {
     const gridHeight = pixelCount;
-    const gridWidth = pixelCount + 2;
+    const gridWidth  = Math.floor((3 * gridHeight - 1) / 4);
 
     document.getElementById('levelCounter').textContent = currentLevel;
     document.getElementById('pixelCount').textContent = `${gridHeight} × ${gridWidth}`;
@@ -189,7 +189,9 @@ document.getElementById('canvasAltered').addEventListener('click', (e) => {
 
 // Hover highlight
 document.getElementById('canvasAltered').addEventListener('mousemove', (e) => {
-    if (!gridInfo || !gameActive) return;
+    if (!gridInfo || !gameActive) 
+        return;
+
     const canvas = e.target;
     const ctx = canvas.getContext('2d');
     const rect = canvas.getBoundingClientRect();
@@ -220,6 +222,93 @@ document.getElementById('canvasAltered').addEventListener('mousemove', (e) => {
     };
 });
 
+// Show hint
+function showHint() {
+    if (!gridInfo || !gameActive) return;
 
-// Start button
+    const canvas = document.getElementById('canvasAltered');
+    const ctx = canvas.getContext('2d');
+
+    const cellWidth = canvas.width / gridInfo.w;
+    const cellHeight = canvas.height / gridInfo.h;
+
+    const img = new Image();
+    img.src = canvas.dataset.src;
+    img.onload = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        const halfCols = Math.floor(gridInfo.w / 2);
+        const halfRows = Math.floor(gridInfo.h / 2);
+
+        let regionWidth = halfCols * cellWidth;
+        let regionHeight = halfRows * cellHeight;
+
+        if (gridInfo.w % 2 !== 0) regionWidth += cellWidth;
+        if (gridInfo.h % 2 !== 0) regionHeight += cellHeight;
+
+        const pixelX = gridInfo.x;
+        const pixelY = gridInfo.y;
+
+        let xStart = 0;
+        let yStart = 0;
+
+        if (pixelX >= halfCols) xStart = canvas.width - regionWidth;
+        if (pixelY >= halfRows) yStart = canvas.height - regionHeight;
+
+        ctx.strokeStyle = 'rgba(120, 228, 255, 0.9)';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(xStart, yStart, regionWidth, regionHeight);
+
+        ctx.fillStyle = 'rgba(0, 59, 62, 0.17)';
+        ctx.fillRect(xStart, yStart, regionWidth, regionHeight);
+    };
+}
+
+
+
+// Surrender game and highlight correct pixel
+function surrenderGame() {
+    if (!gridInfo || !gameActive) 
+        return;
+
+    // Stop the game
+    gameActive = false;
+
+    const canvas = document.getElementById('canvasAltered');
+    const ctx = canvas.getContext('2d');
+
+    const cellWidth = canvas.width / gridInfo.w;
+    const cellHeight = canvas.height / gridInfo.h;
+
+    // Redraw altered image
+    const img = new Image();
+    img.src = canvas.dataset.src;
+    img.onload = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        // Highlight the altered pixel
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = 'red';
+        ctx.strokeRect(
+            gridInfo.x * cellWidth - 1,
+            gridInfo.y * cellHeight - 1,
+            cellWidth + 2,
+            cellHeight + 2
+        );
+    };
+}
+
+
+// Buttons
+document.getElementById('surrenderBtn').addEventListener('click', surrenderGame);
 document.getElementById('startBtn').addEventListener('click', startGame);
+document.getElementById('hintBtn').addEventListener('click', showHint);
+
+// Auto-start on page load
+window.addEventListener('DOMContentLoaded', () => {
+    startGame();
+})

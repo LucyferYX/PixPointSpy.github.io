@@ -56,7 +56,7 @@ def pixelate_image():
     # Verify the response is an image
     content_type = response.headers.get("Content-Type", "")
     if "image" not in content_type or response.status_code != 200:
-        print(f"⚠️ Invalid image response from {image_url} ({response.status_code})")
+        print(f"Invalid image response from {image_url} ({response.status_code})")
         return jsonify({'error': 'Invalid image data from source'}), 500
     
     response = fetch_image_safe(image_url)
@@ -78,13 +78,17 @@ def pixelate_image():
     changed_x = random.randint(0, altered.width - 1)
     changed_y = random.randint(0, altered.height - 1)
 
-    # Modify color more noticeably
+    # Modify color
     r, g, b = altered_pixels[changed_x, changed_y]
 
-    # Choose random color channel to adjust and stronger delta
-    channel = random.choice(['r', 'g', 'b'])
-    delta = random.choice([-60, -40, 40, 60])
+    # Adjust delta based on brightness
+    brightness = (r + g + b) / 3
+    if brightness < 128:
+        delta = random.randint(40, 70)
+    else:
+        delta = -random.randint(40, 70)
 
+    channel = random.choice(['r', 'g', 'b'])
     if channel == 'r':
         new_color = (max(0, min(255, r + delta)), g, b)
     elif channel == 'g':

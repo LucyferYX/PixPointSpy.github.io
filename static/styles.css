@@ -67,7 +67,7 @@ footer {
 }
 
 .canvas-box {
-    flex: 0 0 auto;      /* prevent automatic stretching */
+    flex: 0 0 auto;
     text-align: center;
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.5);
@@ -93,14 +93,6 @@ canvas {
         overflow-x: auto;
     }
 }
-
-/* img {
-    max-width: 90%;
-    height: auto;
-    margin-top: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-} */
 
 
 /* Game info styling */

@@ -1,6 +1,7 @@
 let currentImageUrl = '';
 let gridInfo = null;
 let gameActive = false;
+let lastClickTime = 0;
 
 const MAX_CANVAS_WIDTH = 420;
 const MAX_CANVAS_HEIGHT = 420;
@@ -32,18 +33,16 @@ async function loadAndPrepareImage(url = null, maxRetries = 5) {
         img.crossOrigin = "anonymous";
         img.src = finalUrl;
 
-        console.log(`🖼️ Attempt ${attempts}: Loading ${finalUrl}`);
-
         try {
             await new Promise((resolve, reject) => {
                 img.onload = resolve;
                 img.onerror = reject;
             });
 
-            console.log(`✅ Loaded successfully: ${finalUrl}`);
+            console.log(`Image loaded successfully: ${finalUrl}`);
             return img;
         } catch (err) {
-            console.warn(`❌ Attempt ${attempts} failed for ${finalUrl}:`, err);
+            console.warn(`Attempt ${attempts} failed for image: ${finalUrl}:`, err);
             if (attempts >= maxRetries) throw new Error("Image failed to load after multiple attempts");
             await new Promise(r => setTimeout(r, 300));
         }
@@ -171,9 +170,6 @@ async function nextLevel() {
 
         drawImageToCanvas('canvasOriginal', data.original);
         drawImageToCanvas('canvasAltered', data.altered);
-
-        console.log(`🧩 Level ${currentLevel} | Pixels: ${pixelCount}`);
-        console.log("Pixel changed:", data.debug);
     } catch (err) {
         console.error(err.message);
         alert("An image failed to load, please try restarting the game.");
@@ -192,12 +188,23 @@ function updateStatsCard() {
     document.getElementById('pixelCount').textContent = `${gridHeight} × ${gridWidth}`;
     document.getElementById('correctCount').textContent = correctCount;
     document.getElementById('wrongCount').textContent = wrongCount;
+
+    saveStats();
 }
 
 
 // Handle user click on altered image
 document.getElementById('canvasAltered').addEventListener('click', (e) => {
-    if (!gridInfo || !gameActive) return;
+    if (!gridInfo || !gameActive)
+        return;
+
+    // Ignore clicking if it happens in less than 0.5 seconds after previous
+    const now = Date.now();
+    if (now - lastClickTime < 500) 
+        return;
+
+    lastClickTime = now;
+
 
     const canvas = e.target;
     const rect = canvas.getBoundingClientRect();
@@ -211,6 +218,7 @@ document.getElementById('canvasAltered').addEventListener('click', (e) => {
     const clickedY = Math.floor(yClick / cellHeight);
 
     if (clickedX === gridInfo.x && clickedY === gridInfo.y) {
+        playSound("correct");
         currentLevel++;
         pixelCount += 2;
         correctCount++;
@@ -225,9 +233,9 @@ document.getElementById('canvasAltered').addEventListener('click', (e) => {
 
         nextLevel();
     } else {
+        playSound("wrong");
         wrongCount++;
         updateStatsCard();
-        alert("❌ Wrong pixel! Try again.");
     }
 });
 
@@ -266,6 +274,7 @@ document.getElementById('canvasAltered').addEventListener('mousemove', (e) => {
         );
     };
 });
+
 
 // Show hint
 function showHint() {
@@ -310,7 +319,6 @@ function showHint() {
         ctx.fillRect(xStart, yStart, regionWidth, regionHeight);
     };
 }
-
 
 
 // Surrender game and highlight correct pixel
@@ -363,6 +371,19 @@ function loadStats() {
     }
 }
 
+
+// Play sounds when clicking on pixels
+function playSound(type) {
+    let soundFile = "";
+    if (type === "correct") soundFile = "sounds/correct.mp3";
+    else if (type === "wrong") soundFile = "sounds/wrong.mp3";
+
+    if (!soundFile) return;
+
+    const audio = new Audio(soundFile);
+    audio.volume = 0.3; // adjust as needed (0.0 - 1.0)
+    audio.play().catch(err => console.warn("Sound play blocked:", err));
+}
 
 
 // Buttons

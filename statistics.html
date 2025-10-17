@@ -28,10 +28,15 @@
         </div>
     </nav>
 
-
-
     <!-- Main content -->
-    <main>
+    <main class="container my-5"  style="padding-top: 70px;">
+    <div class="card shadow-sm text-center">
+        <div class="card-body">
+        <h5 class="card-title mb-3">Your Game Statistics</h5>
+        <p class="card-text" id="statsText">Loading...</p>
+        <button id="resetStatsBtn" class="btn btn-outline-danger mt-3">Reset Statistics</button>
+        </div>
+    </div>
     </main>
 
     <!-- Footer -->
@@ -39,7 +44,7 @@
         <small>Copyright © 2025 Liene Krista Neimane. CS50x Final Project</small>
     </footer>
 
-    <script src="js/game.js"></script>
+    <script src="js/stats.js"></script>
 </body>
 
 </html>

@@ -1,8 +1,6 @@
 let currentImageUrl = '';
 let gridInfo = null;
-let fetchingTries = 5;
 let gameActive = false;
-let cachedAlteredImg = null;
 
 const MAX_CANVAS_WIDTH = 420;
 const MAX_CANVAS_HEIGHT = 420;
@@ -14,47 +12,111 @@ let correctCount = 0;
 let wrongCount = 0;
 
 
-// Image loading, pixelation, fallback
-async function loadAndPixelateImage(pixelCount, maxRetries = 5) {
+// Return a random Lorem Picsum image
+function getRandomImageUrl() {
+  const width = 640;
+  const height = 480;
+  const imgId = Math.floor(Math.random() * 1085);
+  return `https://picsum.photos/id/${imgId}/${width}/${height}`;
+}
+
+
+// Load image
+async function loadAndPrepareImage(url = null, maxRetries = 5) {
     let attempts = 0;
 
     while (attempts < maxRetries) {
         attempts++;
+        const finalUrl = url || getRandomImageUrl();
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.src = finalUrl;
+
+        console.log(`🖼️ Attempt ${attempts}: Loading ${finalUrl}`);
 
         try {
-            // Get a new random image each retry
-            const imgRes = await fetch('/random-image');
-            if (!imgRes.ok) 
-                throw new Error('Failed to fetch random image');
-            const imgData = await imgRes.json();
+            await new Promise((resolve, reject) => {
+                img.onload = resolve;
+                img.onerror = reject;
+            });
 
-            const imageUrl = imgData.url;
-            console.log(`🎲 Attempt ${attempts}: Trying image ${imageUrl}`);
-
-            // Try to pixelate it
-            const pixRes = await fetch(
-                `/pixelate-image?url=${encodeURIComponent(imageUrl)}&pixels=${pixelCount}`
-            );
-
-            if (!pixRes.ok) {
-                console.warn(`⚠️ Invalid image response from ${imageUrl} (${pixRes.status})`);
-                continue;
-            }
-
-            const data = await pixRes.json();
-            if (!data.original || !data.altered) 
-                throw new Error("Incomplete data from server");
-
-            return data;
-
+            console.log(`✅ Loaded successfully: ${finalUrl}`);
+            return img;
         } catch (err) {
-            console.warn(`⚠️ Attempt ${attempts} failed: ${err.message}`);
+            console.warn(`❌ Attempt ${attempts} failed for ${finalUrl}:`, err);
+            if (attempts >= maxRetries) throw new Error("Image failed to load after multiple attempts");
             await new Promise(r => setTimeout(r, 300));
         }
     }
-
-    throw new Error(`❌ Could not load valid image after ${maxRetries} attempts`);
 }
+
+
+function pixelateImage(img, pixelCount) {
+    const smallW = pixelCount;
+    const smallH = Math.round(pixelCount * (img.height / img.width));
+
+    const smallCanvas = document.createElement('canvas');
+    const ctx = smallCanvas.getContext('2d');
+    smallCanvas.width = smallW;
+    smallCanvas.height = smallH;
+
+    ctx.drawImage(img, 0, 0, smallW, smallH);
+    const pixelData = ctx.getImageData(0, 0, smallW, smallH);
+
+    return { pixelData, smallW, smallH };
+}
+
+function alterPixel(pixelData) {
+    const data = new Uint8ClampedArray(pixelData.data);
+    const width = pixelData.width;
+    const height = pixelData.height;
+
+    const x = Math.floor(Math.random() * width);
+    const y = Math.floor(Math.random() * height);
+    const idx = (y * width + x) * 4;
+
+    const brightness = (data[idx] + data[idx+1] + data[idx+2]) / 3;
+    const delta = brightness < 128 ? 60 : -60;
+    const channel = Math.floor(Math.random() * 3);
+
+    data[idx + channel] = Math.max(0, Math.min(255, data[idx + channel] + delta));
+
+    return {
+        alteredData: new ImageData(data, width, height),
+        changed_pixel: { x, y, w: width, h: height },
+        debug: { x, y, channel, delta }
+    };
+}
+
+function upscaleToCanvas(imageData, targetWidth, targetHeight) {
+    const smallCanvas = document.createElement('canvas');
+    smallCanvas.width = imageData.width;
+    smallCanvas.height = imageData.height;
+    smallCanvas.getContext('2d').putImageData(imageData, 0, 0);
+
+    const bigCanvas = document.createElement('canvas');
+    bigCanvas.width = targetWidth;
+    bigCanvas.height = targetHeight;
+    const ctx = bigCanvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(smallCanvas, 0, 0, targetWidth, targetHeight);
+
+    return bigCanvas.toDataURL("image/png");
+}
+
+async function generateGameImages(pixelCount) {
+    const img = await loadAndPrepareImage();
+
+    const { pixelData, smallW, smallH } = pixelateImage(img, pixelCount);
+    const { alteredData, changed_pixel, debug } = alterPixel(pixelData);
+
+    const originalB64 = upscaleToCanvas(pixelData, img.width, img.height);
+    const alteredB64 = upscaleToCanvas(alteredData, img.width, img.height);
+
+    return { original: originalB64, altered: alteredB64, changed_pixel, debug };
+}
+
+
 
 function drawImageToCanvas(canvasId, dataUrl) {
     const canvas = document.getElementById(canvasId);
@@ -77,11 +139,6 @@ function drawImageToCanvas(canvasId, dataUrl) {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
         canvas.dataset.src = dataUrl;
-
-        if (canvasId === 'canvasAltered') {
-            cachedAlteredImg = new Image();
-            cachedAlteredImg.src = dataUrl;
-        }
     };
     img.src = dataUrl;
 }
@@ -99,6 +156,7 @@ async function startGame() {
     await nextLevel();
 }
 
+
 // Move to the next level
 async function nextLevel() {
     if (!gameActive) 
@@ -108,7 +166,7 @@ async function nextLevel() {
     overlay.classList.add('active');
 
     try {
-        const data = await loadAndPixelateImage(pixelCount);
+        const data = await generateGameImages(pixelCount);
         gridInfo = data.changed_pixel;
 
         drawImageToCanvas('canvasOriginal', data.original);
@@ -125,6 +183,7 @@ async function nextLevel() {
     }
 }
 
+
 function updateStatsCard() {
     const gridHeight = pixelCount;
     const gridWidth  = Math.floor((3 * gridHeight - 1) / 4);
@@ -134,20 +193,6 @@ function updateStatsCard() {
     document.getElementById('correctCount').textContent = correctCount;
     document.getElementById('wrongCount').textContent = wrongCount;
 }
-
-
-// Manages canvas coordinate system
-canvasAltered.addEventListener("click", function(event) {
-    const rect = canvasAltered.getBoundingClientRect();
-
-    const scaleX = canvasAltered.width / rect.width;
-    const scaleY = canvasAltered.height / rect.height;
-
-    const x = (event.clientX - rect.left) * scaleX;
-    const y = (event.clientY - rect.top) * scaleY;
-
-    handleClickOnCanvas(x, y);
-});
 
 
 // Handle user click on altered image
@@ -298,6 +343,26 @@ function surrenderGame() {
         );
     };
 }
+
+
+// Save game statistics
+function saveStats() {
+    const stats = { correctCount, wrongCount, currentLevel };
+    localStorage.setItem('pixPointSpyStats', JSON.stringify(stats));
+}
+
+
+// Load game statistics
+function loadStats() {
+    const saved = localStorage.getItem('pixPointSpyStats');
+    if (saved) {
+        const stats = JSON.parse(saved);
+        correctCount = stats.correctCount || 0;
+        wrongCount = stats.wrongCount || 0;
+        currentLevel = stats.currentLevel || 1;
+    }
+}
+
 
 
 // Buttons

@@ -123,14 +123,49 @@ footer {
     padding: 4rem;
     font-size: 1.7rem;
     background-color: #f7cad0;
-    border-color: #c95f967a !important;
     color: #222;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    border: transparent;
+    background-clip: padding-box;
 }
 
 .btn-primary:hover {
     background-color: #c95f95 !important;
-    box-shadow: 0 0 10px rgba(91, 28, 28, 0.5) !important;
-    transform: translateY(-2px) !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4) !important;
+    transform: translateY(-3px) !important;
+}
+
+.glass-card .btn-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 3px;
+    background: linear-gradient(
+        120deg,
+        #ff000073,
+        #ff80007b,
+        #ffff007e,
+        #00ff0080,
+        #0000ff76,
+        #8c00ff7e,
+        #ff000075
+    );
+    background-size: 400% 400%;
+    animation: rainbow-border 6s linear infinite;
+    z-index: -1;
+    mask: 
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+}
+
+@keyframes rainbow-border {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .start-btn {

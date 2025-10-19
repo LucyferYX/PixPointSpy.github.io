@@ -1,7 +1,64 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400&display=swap');
 
+
+/* Light theme */
+:root {
+    --bg-image: url("/images/bg-light.png");
+    --bg-color: #f5dce8;
+    --text-color: #222;
+
+    --navbar-bg: #f5dce8;
+    --footer-bg: #f5dce8;
+    --navbar-text: #222;
+
+    --btn-primary-bg: #e68bb7;
+    --btn-primary-text: #fff;
+
+    --card-bg: rgba(255, 255, 255, 0.5);
+    --game-card-bg: #f9f5fc;
+    --game-card-border: #e6d7f2;
+    --info-card-bg: #fef6f8;
+    --info-card-border: #f7cad0;
+
+    --glass-bg: rgba(255, 255, 255, 0.5);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --glass-text: #222;
+    --glass-text-muted: #555;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+    --bg-image: url("/images/bg-dark.png");
+    --bg-color: #46142c;
+    --text-color: #f5f5f5;
+
+    --navbar-bg: #46142c;
+    --footer-bg: #46142c;
+
+    --btn-primary-bg: #76214a;
+    --btn-primary-text: #fff;
+    --navbar-text: #eee;
+
+    --card-bg: rgba(40, 40, 40, 0.491);
+    --game-card-bg: #2b2b3a;
+    --game-card-border: #44445a;
+    --info-card-bg: #3a3742;
+    --info-card-border: #5c566b;
+
+    --glass-bg: rgba(30, 30, 40, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-text: #eee !important;
+    --glass-text-muted: #ccc !important;
+}
+
+* {
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+
+
 body {
-    background-image: url("/images/background.png");
+    background-color: var(--bg-color);
+    background-image: var(--bg-image);
     background-repeat: no-repeat;
     background-attachment: fixed; 
     background-size: 100% 100%;
@@ -33,21 +90,41 @@ main .container-fluid {
 }
 
 
-
 /* Navbar and footer */
 .navbar {
-    background-color: #f5dce8;
+    background-color: var(--navbar-bg);
     font-weight: bold;
     font-size: 2rem;
     width: 100%;
     flex-shrink: 0;
 }
 
+.navbar .nav-link,
+.navbar .btn.nav-link {
+    color: var(--navbar-text) !important;
+    position: relative;
+}
+
+.navbar .nav-link:hover,
+.navbar .btn.nav-link:hover {
+    color: #b56aaf !important;
+}
+
+/* Divider */
+.nav-divider {
+    width: 2px;
+    height: 24px;
+    background-color: var(--btn-primary-bg);
+    align-self: center;
+    border-radius: 10px !important;
+}
+
 footer {
-    background-color: #f5dce8;
+    background-color: var(--footer-bg);
     font-size: 1.5rem;
     width: 100%;
     flex-shrink: 0;
+    color: var(--navbar-text) !important;
 }
 
 
@@ -84,9 +161,10 @@ footer {
 
 /* --- Glassmorphism card --- */
 .glass-card {
-    background: rgba(255, 255, 255, 0.35);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--glass-text);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.25);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
     max-width: 110%;
@@ -97,7 +175,6 @@ footer {
 .glass-card h2 {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #222;
     padding-bottom: 2rem;
     padding-left: 2.5rem;
     padding-right: 2.5rem;
@@ -105,34 +182,27 @@ footer {
 
 .glass-card p {
     font-size: 1.35rem;
-    color: #444;
+    color: var(--glass-text-muted);
 }
 
 
 /* Buttons */
-
-.btn {
-    transition: all 0.2s ease-in-out !important;    
-}
-
-.btn:hover {
-    transform: scale(1.03);
-}
-
 .glass-card .btn-primary {
+    transition: all 0.2s ease-in-out !important;  
     padding: 4rem;
     font-size: 1.7rem;
-    background-color: #f7cad0;
-    color: #222;
+    background-color: var(--btn-primary-bg);
+    color: var(--glass-text);
     position: relative;
     z-index: 1;
     overflow: hidden;
     border: transparent;
     background-clip: padding-box;
+    transform: scale(1.03);
 }
 
 .btn-primary:hover {
-    background-color: #c95f95 !important;
+    background-color: var(--btn-primary-bg) !important;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.4) !important;
     transform: translateY(-3px) !important;
 }
@@ -169,24 +239,29 @@ footer {
 }
 
 .start-btn {
-    background-color: #f5dce8 !important;
+    transition: all 0.2s ease-in-out !important;  
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
 }
 
 .start-btn:hover {
-    background-color: #c95f95 !important;
+    background-color: var(--btn-primary-bg) !important;
+    transform: scale(1.03);
 }
 
 
 /* Game cards */
 .game-card {
-    background: #f9f5fc !important;
-    border: 2px solid #e6d7f2 !important;
+    color: var(--glass-text) !important;
+    background: var(--game-card-bg) !important;
+    border: 2px solid var(--game-card-border) !important;
     border-radius: 30px !important;
 }
 
 .info-card {
-    background: #fef6f8 !important;
-    border: 2px solid #f7cad0 !important;
+    color: var(--glass-text) !important;
+    background: var(--info-card-bg) !important;
+    border: 2px solid var(--info-card-border) !important;
     border-radius: 30px !important;
 }
 

@@ -1,13 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400&display=swap');
 
 body {
-    background-image: url("../images/background.png");
+    background-image: url("/images/background.png");
     background-repeat: no-repeat;
     background-attachment: fixed; 
     background-size: 100% 100%;
     
     font-family: "Josefin Sans", sans-serif !important;
     text-align: center;
+    align-items: center;
     margin-top: 40px;
 
     display: flex;
@@ -21,8 +22,16 @@ html {
 }
 
 main {
+    min-height: calc(100vh - 160px);
     flex: 1;
 }
+
+main .container-fluid {
+    max-width: 2000px;
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
 
 
 /* Navbar and footer */
@@ -30,11 +39,106 @@ main {
     background-color: #f5dce8;
     font-weight: bold;
     font-size: 2rem;
+    width: 100%;
+    flex-shrink: 0;
 }
 
 footer {
     background-color: #f5dce8;
     font-size: 1.5rem;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+
+/* --- 3D Tilt Image Effect --- */
+.image-tilt-wrapper img {
+    max-width: 85%;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.tilt-image:hover {
+    transform: rotateY(10deg) rotateX(-5deg) scale(1.05);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
+}
+
+.tilt-image:hover {
+    transform: rotateY(10deg) rotateX(-5deg) scale(1.03);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.tilt-image:active {
+    transform: rotateY(0deg) rotateX(0deg) scale(0.98);
+}
+
+
+@media (max-width: 768px) {
+    main .row {
+        text-align: center;
+    }
+    .tilt-image {
+        max-width: 80%;
+    }
+}
+
+
+/* --- Glassmorphism card --- */
+.glass-card {
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+    max-width: 110%;
+    border-radius: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #222;
+    padding-bottom: 2rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+}
+
+.glass-card p {
+    font-size: 1.35rem;
+    color: #444;
+}
+
+
+/* Buttons */
+
+.btn {
+    transition: all 0.2s ease-in-out !important;    
+}
+
+.btn:hover {
+    transform: scale(1.03);
+}
+
+.glass-card .btn-primary {
+    padding: 4rem;
+    font-size: 1.7rem;
+    background-color: #f7cad0;
+    border-color: #c95f967a !important;
+    color: #222;
+}
+
+.btn-primary:hover {
+    background-color: #c95f95 !important;
+    box-shadow: 0 0 10px rgba(91, 28, 28, 0.5) !important;
+    transform: translateY(-2px) !important;
+}
+
+.start-btn {
+    background-color: #f5dce8 !important;
+}
+
+.start-btn:hover {
+    background-color: #c95f95 !important;
 }
 
 
@@ -124,17 +228,6 @@ canvas {
 .stat-divider {
     border-top: 1px solid rgba(0, 0, 0, 0.2);
     margin: 10px 0;
-}
-
-.start-btn {
-    background-color: #f5dce8 !important;
-    border: none;
-    transition: all 0.2s ease-in-out;
-}
-
-.start-btn:hover {
-    background-color: #c95f95 !important;
-    transform: scale(1.03);
 }
 
 

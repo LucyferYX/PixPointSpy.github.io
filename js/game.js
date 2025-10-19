@@ -226,7 +226,7 @@ document.getElementById('canvasAltered').addEventListener('click', (e) => {
         updateStatsCard();
 
         if (currentLevel > 100) {
-            alert("🎉 Congratulations! You’ve completed all 100 levels!");
+            alert("Congratulations! You’ve completed all 100 levels!");
             gameActive = false;
             return;
         }

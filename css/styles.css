@@ -125,6 +125,37 @@ main .container-fluid {
     border-radius: 10px !important;
 }
 
+.music-dropdown {
+    position: relative;
+}
+
+.music-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    background: var(--navbar-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 6px;
+    padding: 0.5rem;
+    min-width: 150px;
+    z-index: 1000;
+}
+
+.music-dropdown.active .music-menu {
+    display: block;
+}
+
+.music-menu {
+    transition: opacity 0.2s ease;
+}
+
+/* .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0.5rem;
+} */
+
 footer {
     background-color: var(--footer-bg);
     font-size: 1.5rem;

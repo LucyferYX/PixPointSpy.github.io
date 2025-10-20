@@ -30,7 +30,7 @@
 
 /* Dark theme */
 [data-theme="dark"] {
-    --bg-image: url("/PixPointSpy.github.io/images/bg-dark.png");
+    --bg-image: url(".../images/bg-dark.png");
     --bg-color: #46142c;
     --text-color: #f5f5f5;
 

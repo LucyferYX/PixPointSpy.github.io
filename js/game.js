@@ -11,6 +11,9 @@ let currentLevel = 1;
 let pixelCount = 3;
 let correctCount = 0;
 let wrongCount = 0;
+let hintCount = 0;
+let startTime = 0;
+let endTime = 0;
 
 
 // Return a random Lorem Picsum image
@@ -150,6 +153,8 @@ async function startGame() {
     pixelCount = 3;
     correctCount = 0;
     wrongCount = 0;
+    hintCount = 0;
+    startTime = Date.now();
 
     updateStatsCard();
     await nextLevel();
@@ -188,8 +193,6 @@ function updateStatsCard() {
     document.getElementById('pixelCount').textContent = `${gridHeight} × ${gridWidth}`;
     document.getElementById('correctCount').textContent = correctCount;
     document.getElementById('wrongCount').textContent = wrongCount;
-
-    saveStats();
 }
 
 
@@ -228,6 +231,7 @@ document.getElementById('canvasAltered').addEventListener('click', (e) => {
         if (currentLevel > 100) {
             alert("Congratulations! You’ve completed all 100 levels!");
             gameActive = false;
+            saveFinalScore();
             return;
         }
 
@@ -278,7 +282,10 @@ document.getElementById('canvasAltered').addEventListener('mousemove', (e) => {
 
 // Show hint
 function showHint() {
-    if (!gridInfo || !gameActive) return;
+    if (!gridInfo || !gameActive) 
+        return;
+
+    hintCount++;
 
     const canvas = document.getElementById('canvasAltered');
     const ctx = canvas.getContext('2d');
@@ -327,6 +334,7 @@ function surrenderGame() {
         return;
 
     gameActive = false;
+    saveFinalScore();
 
     const canvas = document.getElementById('canvasAltered');
     const ctx = canvas.getContext('2d');
@@ -353,10 +361,22 @@ function surrenderGame() {
 }
 
 
-// Save game statistics
-function saveStats() {
-    const stats = { correctCount, wrongCount, currentLevel };
-    localStorage.setItem('pixPointSpyStats', JSON.stringify(stats));
+// Save game statistics (top 10)
+function saveFinalScore() {
+    const newScore = calculateFinalScore();
+
+    const saved = localStorage.getItem('pixPointSpyTopScores');
+    let scores = saved ? JSON.parse(saved) : [];
+
+    scores.push(newScore);
+
+    // Sort descending by total score
+    scores.sort((a, b) => b.score - a.score);
+
+    // Keep only top 10
+    if (scores.length > 10) scores = scores.slice(0, 10);
+
+    localStorage.setItem('pixPointSpyTopScores', JSON.stringify(scores));
 }
 
 
@@ -381,15 +401,53 @@ function playSound(type) {
     if (!soundFile) return;
 
     const audio = new Audio(soundFile);
-    audio.volume = 0.3; // adjust as needed (0.0 - 1.0)
+    audio.volume = 0.2;
     audio.play().catch(err => console.warn("Sound play blocked:", err));
 }
 
 
+// Calculate final score
+function calculateFinalScore() {
+    endTime = Date.now();
+    const totalTimeSec = Math.round((endTime - startTime) / 1000);
+
+    const score = (correctCount * 100)
+                - (wrongCount * 50)
+                - (hintCount * 20)
+                - (totalTimeSec / 2);
+
+    return {
+        date: new Date().toLocaleString(),
+        level: currentLevel,
+        wrong: wrongCount,
+        hints: hintCount,
+        time: totalTimeSec,
+        score: Math.max(0, Math.round(score))
+    };
+}
+
+
+// Save if user leaves page
+window.addEventListener('beforeunload', () => {
+    if (gameActive) {
+        saveFinalScore();
+    }
+});
+
+
 // Buttons
-document.getElementById('surrenderBtn').addEventListener('click', surrenderGame);
-document.getElementById('startBtn').addEventListener('click', startGame);
+document.getElementById('startBtn').addEventListener('click', () => {
+    if (gameActive) {
+        gameActive = false;
+        saveFinalScore();
+    }
+
+    startGame();
+});
+
 document.getElementById('hintBtn').addEventListener('click', showHint);
+document.getElementById('surrenderBtn').addEventListener('click', surrenderGame);
+
 
 // Auto-start on page load
 window.addEventListener('DOMContentLoaded', () => {

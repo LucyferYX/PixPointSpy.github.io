@@ -24,6 +24,8 @@
     --glass-border: rgba(255, 255, 255, 0.3);
     --glass-text: #222;
     --glass-text-muted: #555;
+
+    --menu-background: #dab0c47b;
 }
 
 /* Dark theme */
@@ -49,6 +51,8 @@
     --glass-border: rgba(255, 255, 255, 0.1);
     --glass-text: #eee !important;
     --glass-text-muted: #ccc !important;
+
+    --menu-background: #46142c79;
 }
 
 * {
@@ -157,6 +161,15 @@ footer {
         max-width: 80%;
     }
 }
+
+
+/* Statistics table */
+table {
+    color: var(--glass-text) !important;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
 
 
 /* --- Glassmorphism card --- */
@@ -284,7 +297,7 @@ footer {
     flex: 0 0 auto;
     text-align: center;
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.5);
+    background: var(--menu-background);
     padding: 10px;
     box-shadow: 0px 2px 10px rgba(38, 29, 41, 0.312) !important;
 }

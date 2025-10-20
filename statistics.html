@@ -33,16 +33,36 @@
 
     <!-- Main content -->
     <main class="container my-5"  style="padding-top: 70px;">
+
+        <!-- Statistics table -->
         <div class="glass-card shadow-sm text-center">
             <div class="card-body">
-                <h5 class="card-title mb-3">Your Game Statistics</h5>
+                <h5 class="card-title mb-3">Your game statistics</h5>
                 <p class="card-text" id="statsText">Loading...</p>
-                <button id="resetStatsBtn" class="btn btn-outline-danger mt-3">Reset Statistics</button>
+                <button id="resetStatsBtn" class="btn btn-outline-danger mt-3">Reset statistics</button>
+            </div>
+        </div>
+        <br>
+
+        <!-- Statistics explanation -->
+        <div class="glass-card shadow-sm text-center mt-4">
+            <div class="card-body">
+                <h5 class="card-title mb-3">How your score is calculated</h5>
+                <ul class="list-group list-group-flush text-start">
+                    <li class="list-group-item"><strong>Correct guess:</strong> +100 points each</li>
+                    <li class="list-group-item"><strong>Wrong guess:</strong> -50 points each</li>
+                    <li class="list-group-item"><strong>Hint used:</strong> -20 points each</li>
+                    <li class="list-group-item"><strong>Time taken:</strong> -0.5 points per second</li>
+                </ul>
+                <small class="text-muted d-block mt-2">
+                    Final score is rounded and cannot go below 0.
+                </small>
             </div>
         </div>
     </main>
 
     <!-- Footer -->
+    <br>
     <footer class="text-center py-3 shadow-sm">
         <small>Copyright © 2025 Liene Krista Neimane. CS50x Final Project</small>
     </footer>

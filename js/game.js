@@ -306,8 +306,10 @@ function showHint() {
         let regionWidth = halfCols * cellWidth;
         let regionHeight = halfRows * cellHeight;
 
-        if (gridInfo.w % 2 !== 0) regionWidth += cellWidth;
-        if (gridInfo.h % 2 !== 0) regionHeight += cellHeight;
+        if (gridInfo.w % 2 !== 0) 
+            regionWidth += cellWidth;
+        if (gridInfo.h % 2 !== 0) 
+            regionHeight += cellHeight;
 
         const pixelX = gridInfo.x;
         const pixelY = gridInfo.y;
@@ -363,6 +365,9 @@ function surrenderGame() {
 
 // Save game statistics (top 10)
 function saveFinalScore() {
+    if (currentLevel <= 1) 
+        return;
+    
     const newScore = calculateFinalScore();
 
     const saved = localStorage.getItem('pixPointSpyTopScores');

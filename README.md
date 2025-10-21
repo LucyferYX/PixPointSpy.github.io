@@ -17,6 +17,7 @@ This project was done as part of Harvard's CS50x course as the final project.
 - **Surrendering**: Surrender button can be used to reveal the altered pixel.
 - **Score tracking**: Records top 10 best scores including level reached, wrong guesses, hints used and completion time.   
 - **Dark/light mode**: Toggle between dark and light themes.
+- **Music**: The gameplay is accompanied by a nice tune and sound effects.
 
 ---
 

@@ -505,3 +505,25 @@ canvas {
         box-shadow: 0 0 0 0 rgba(0,191,255,0);
     }
 }
+
+
+/* Kirby easter egg */
+#kirbyStar {
+    position: fixed;
+    top: 50%;
+    left: -100px;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, #ffb6c1 0%, #ff69b4 70%, transparent 100%);
+    border-radius: 50%;
+    animation: kirby-fly 1s ease-in-out forwards;
+    animation-delay: 0.1s;
+    z-index: 9999;
+    box-shadow: 0 0 20px rgba(255, 182, 193, 0.8);
+}
+
+@keyframes kirby-fly {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    50% { transform: translateX(50vw) translateY(-50px) scale(1.2); }
+    100% { transform: translateX(110vw) translateY(0) scale(0.8); opacity: 0; }
+}

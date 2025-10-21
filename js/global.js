@@ -17,6 +17,7 @@ document.documentElement.setAttribute('data-theme', savedTheme);
 
 
 
+
 // Music and volume
 const musicButton = document.getElementById('musicButton');
 const musicDropdown = musicButton.closest('.music-dropdown');
@@ -61,38 +62,51 @@ volumeSlider.addEventListener('input', () => {
 
 
 
-// Sonic easter egg
-let typedKeys = '';  
-const originalMusic = 'sounds/music.mp3'
 
+// Easter egg music
+let typedKeys = '';
+const originalMusic = 'sounds/music.mp3';
+
+// Define available easter eggs
+const easterEggs = {
+    sonic: {
+        url: 'https://www.squidify.org/rest/stream?u=Guest&t=3a98bc55391946445f6f838063cae8c6&s=40n50kuPl4y3r&v=1.16.0&c=Aonsoku&f=json&id=xEzAh7CognJSXtJVl2SQIr&estimateContentLength=true',
+        effect: activateSonicEffect
+    },
+    kirby: {
+        url: 'https://www.squidify.org/rest/stream?u=Guest&t=3a98bc55391946445f6f838063cae8c6&s=40n50kuPl4y3r&v=1.16.0&c=Aonsoku&f=json&id=n3ovhcjGtYpWFtYAeqoHZQ&estimateContentLength=true',
+        effect: activateKirbyEffect
+    }
+};
+
+// Detect secret key sequences
 document.addEventListener('keydown', (e) => {
     typedKeys += e.key.toLowerCase();
-    if (typedKeys.length > 5) typedKeys = typedKeys.slice(-5);
+    if (typedKeys.length > 6) typedKeys = typedKeys.slice(-6);
 
-    if (typedKeys === 'sonic') {
-        activateSonicMode();
-        typedKeys = '';
+    for (const [key, egg] of Object.entries(easterEggs)) {
+        if (typedKeys.endsWith(key)) {
+            activateEasterEgg(egg);
+            typedKeys = '';
+            break;
+        }
     }
 });
 
-function activateSonicMode() {
+// Generic activation logic
+function activateEasterEgg(egg) {
     bgMusic.pause();
-
-    const sonicTrack = 'https://www.squidify.org/rest/stream?u=Guest&t=3a98bc55391946445f6f838063cae8c6&s=40n50kuPl4y3r&v=1.16.0&c=Aonsoku&f=json&id=xEzAh7CognJSXtJVl2SQIr&estimateContentLength=true';
-
-    bgMusic.src = sonicTrack;
+    bgMusic.src = egg.url;
     bgMusic.loop = false;
     bgMusic.currentTime = 0;
 
-    const dash = document.createElement('div');
-    dash.id = 'sonicDash';
-    document.body.appendChild(dash);
-    setTimeout(() => dash.remove(), 2500);
+    // Apply the visual effect for that egg
+    egg.effect?.();
 
     bgMusic.play().then(() => {
-        console.log('Easter egg found! Sonic music playing...');
+        console.log('Easter egg activated!');
     }).catch(err => {
-        console.warn('Failed to play Sonic music. Reverting to normal.', err);
+        console.warn('Failed to play easter egg music, reverting.', err);
         restoreOriginalMusic();
     });
 
@@ -100,7 +114,23 @@ function activateSonicMode() {
     bgMusic.onerror = restoreOriginalMusic;
 }
 
-// Fallback
+// Sonic visual effect
+function activateSonicEffect() {
+    const dash = document.createElement('div');
+    dash.id = 'sonicDash';
+    document.body.appendChild(dash);
+    setTimeout(() => dash.remove(), 2500);
+}
+
+// Kirby visual effect
+function activateKirbyEffect() {
+    const star = document.createElement('div');
+    star.id = 'kirbyStar';
+    document.body.appendChild(star);
+    setTimeout(() => star.remove(), 2500);
+}
+
+// Restore normal background music
 function restoreOriginalMusic() {
     bgMusic.pause();
     bgMusic.src = originalMusic;

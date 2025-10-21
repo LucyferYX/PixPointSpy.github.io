@@ -58,3 +58,54 @@ volumeSlider.addEventListener('input', () => {
     bgMusic.volume = volumeSlider.value;
     localStorage.setItem('bgMusicVolume', volumeSlider.value);
 });
+
+
+
+
+
+// Sonic easter egg
+let typedKeys = '';  
+const originalMusic = 'sounds/music.mp3'
+
+document.addEventListener('keydown', (e) => {
+    typedKeys += e.key.toLowerCase();
+    if (typedKeys.length > 5) typedKeys = typedKeys.slice(-5);
+
+    if (typedKeys === 'sonic') {
+        activateSonicMode();
+        typedKeys = '';
+    }
+});
+
+function activateSonicMode() {
+    console.log('Sonic mode activated!');
+
+    bgMusic.pause();
+
+    const sonicTrack = 'https://www.squidify.org/rest/stream?u=Guest&t=3a98bc55391946445f6f838063cae8c6&s=40n50kuPl4y3r&v=1.16.0&c=Aonsoku&f=json&id=xEzAh7CognJSXtJVl2SQIr&estimateContentLength=true';
+
+    bgMusic.src = sonicTrack;
+    bgMusic.loop = false;
+    bgMusic.currentTime = 0;
+
+    document.body.classList.add('sonic-mode');
+    setTimeout(() => document.body.classList.remove('sonic-mode'), 3000);
+
+    bgMusic.play().then(() => {
+        console.log('Sonic easter egg found! Playing Undefeatable...');
+    }).catch(err => {
+        console.warn('Failed to load music. Reverting to normal.', err);
+        restoreOriginalMusic();
+    });
+
+    bgMusic.onended = restoreOriginalMusic;
+    bgMusic.onerror = restoreOriginalMusic;
+}
+
+function restoreOriginalMusic() {
+    bgMusic.pause();
+    bgMusic.src = originalMusic;
+    bgMusic.loop = true;
+    bgMusic.currentTime = 0;
+    bgMusic.play().catch(err => console.warn('Autoplay blocked on restore:', err));
+}

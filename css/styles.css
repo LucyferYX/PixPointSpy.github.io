@@ -151,11 +151,6 @@ main .container-fluid {
     transition: opacity 0.2s ease;
 }
 
-/* .nav-item.dropdown:hover .dropdown-menu {
-    display: block;
-    margin-top: 0.5rem;
-} */
-
 footer {
     background-color: var(--footer-bg);
     font-size: 1.5rem;
@@ -258,6 +253,13 @@ table {
     transform: translateY(-3px) !important;
 }
 
+.restart-highlight {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.restart-highlight::before,
 .glass-card .btn-primary::before {
     content: "";
     position: absolute;
@@ -415,4 +417,28 @@ canvas {
 @keyframes pulse {
     0%, 100% { opacity: 0.6; transform: scale(1); }
     50% { opacity: 1; transform: scale(1.05); }
+}
+
+
+/* Hint */
+#restartHint {
+    opacity: 0;
+    transition: opacity 0.1s ease;
+    font-size: large !important;
+}
+
+#restartHint.show {
+    display: block !important;
+    opacity: 1;
+}
+
+
+/* Sonic easter egg */
+body.sonic-mode {
+    animation: sonic-flash 0.15s alternate 10;
+}
+
+@keyframes sonic-flash {
+    from { background-color: #00bfff; }
+    to { background-color: #ffffff; }
 }

@@ -344,6 +344,12 @@ function surrenderGame() {
     const cellWidth = canvas.width / gridInfo.w;
     const cellHeight = canvas.height / gridInfo.h;
 
+    const restartBtn = document.getElementById('startBtn');
+    const restartHint = document.getElementById('restartHint');
+
+    restartBtn.classList.add('restart-highlight');
+    restartHint.classList.add('show');
+
     const img = new Image();
     img.src = canvas.dataset.src;
     img.onload = () => {
@@ -360,6 +366,8 @@ function surrenderGame() {
             cellHeight + 2
         );
     };
+
+    restartBtn.classList.add('restart-highlight');
 }
 
 
@@ -442,6 +450,12 @@ window.addEventListener('beforeunload', () => {
 
 // Buttons
 document.getElementById('startBtn').addEventListener('click', () => {
+    const restartBtn = document.getElementById('startBtn');
+    const restartHint = document.getElementById('restartHint');
+
+    restartBtn.classList.remove('restart-highlight');
+    restartHint.classList.remove('show');
+
     if (gameActive) {
         gameActive = false;
         saveFinalScore();

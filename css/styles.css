@@ -483,7 +483,7 @@ canvas {
     transform: translateY(-50%) scale(0.7);
     z-index: 9999;
     pointer-events: none;
-    animation: sonic-dash 0.3s ease-in-out forwards;
+    animation: sonic-dash 0.5s ease-in-out forwards;
     animation-delay: 0.3s;
 }
 

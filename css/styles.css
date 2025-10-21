@@ -161,11 +161,10 @@ footer {
     color: var(--navbar-text) !important;
 }
 
-/* Footer popup styles */
 .credits-popup {
     display: none;
     position: absolute;
-    bottom: 100%; /* appear above the footer text */
+    bottom: 100%; 
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--bg-color);

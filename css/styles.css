@@ -96,7 +96,7 @@ main .container-fluid {
 }
 
 
-/* Navbar and footer */
+/* Navbar */
 .navbar {
     background-color: var(--navbar-bg);
     font-weight: bold;
@@ -151,6 +151,8 @@ main .container-fluid {
     transition: opacity 0.2s ease;
 }
 
+
+/* Footer */
 footer {
     background-color: var(--footer-bg);
     font-size: 1.5rem;
@@ -158,6 +160,41 @@ footer {
     flex-shrink: 0;
     color: var(--navbar-text) !important;
 }
+
+/* Footer popup styles */
+.credits-popup {
+    display: none;
+    position: absolute;
+    bottom: 100%; /* appear above the footer text */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--bg-color);
+    color: var(--navbar-text);
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    text-align: left;
+    min-width: 250px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    z-index: 10;
+}
+
+.credits-popup p {
+    margin: 5px 0;
+}
+
+.credits-popup a {
+    color: var(--glass-text-muted) !important;
+}
+
+.credits-popup a:hover {
+    color: #b56aaf !important;
+}
+
+#footerCredits:hover .credits-popup {
+    display: block;
+}
+
 
 
 /* --- 3D Tilt Image Effect --- */

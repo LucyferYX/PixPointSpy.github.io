@@ -50,7 +50,7 @@
                 <h5 class="card-title mb-3">How your score is calculated</h5>
                 <ul class="list-group list-group-flush text-start">
                     <li class="list-group-item"><strong>Correct guess:</strong> +100 points each</li>
-                    <li class="list-group-item"><strong>Wrong guess:</strong> -50 points each</li>
+                    <li class="list-group-item"><strong>Mistakes:</strong> -50 points each</li>
                     <li class="list-group-item"><strong>Hint used:</strong> -20 points each</li>
                     <li class="list-group-item"><strong>Time taken:</strong> -0.5 points per second</li>
                 </ul>
@@ -59,9 +59,19 @@
     </main>
 
     <!-- Footer -->
-    <br>
-    <footer class="text-center py-3 shadow-sm">
-        <small>Copyright © 2025 Liene Krista Neimane. CS50x Final Project</small>
+    <footer class="text-center py-3 shadow-sm position-relative" id="footerCredits">
+        <small>Copyright © 2025 Liene Krista Neimane</small>
+
+        <div id="creditsPopup" class="credits-popup">
+            <p>CS50x Final Project</p>
+            <p>Sound effects: 
+                <a href="https://www.zapsplat.com/music/ui-user-interface-alert-game-software-success-loading-complete" target="_blank">Correct sound</a>, 
+                <a href="https://www.zapsplat.com/music/ui-user-interface-alert-game-software-complete-tone" target="_blank">Wrong sound</a>
+            </p>
+            <p>Background music: 
+                <a href="https://ende.app/en/song/13305-tropical-island-house-2025" target="_blank">Tropical Island House 2025 by Sascha Ende</a>
+            </p>
+        </div>
     </footer>
 
     <script src="js/statistics.js"></script>

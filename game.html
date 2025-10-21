@@ -86,12 +86,21 @@
                                 <span id="pixelCount" class="stat-value">3 x 5</span>
                             </div>
                             <div class="stat-divider"></div>
-                            <div class="stat-item text-success">
+                            <div class="stat-item text-info">
+                                <span class="stat-label"><i class="bi bi-clock"></i> Time</span>
+                                <span id="timeCounter" class="stat-value">00:00</span>
+                            </div>
+                            <div class="stat-divider"></div>
+                            <div class="stat-item text-warning">
+                                <span class="stat-label"><i class="bi bi-lightbulb"></i> Hints</span>
+                                <span id="hintCount" class="stat-value">0</span>
+                            </div>
+                            <div class="stat-item text-success" style="display:none;">
                                 <span class="stat-label"><i class="bi bi-check2"></i> Correct</span>
                                 <span id="correctCount" class="stat-value">0</span>
                             </div>
                             <div class="stat-item text-danger">
-                                <span class="stat-label"><i class="bi bi-x-lg"></i> Wrong</span>
+                                <span class="stat-label"><i class="bi bi-x-lg"></i> Mistakes</span>
                                 <span id="wrongCount" class="stat-value">0</span>
                             </div>
                         </div>
@@ -109,8 +118,19 @@
     </main>
 
     <!-- Footer -->
-    <footer class="text-center py-3 shadow-sm">
-        <small>Copyright © 2025 Liene Krista Neimane. CS50x Final Project</small>
+    <footer class="text-center py-3 shadow-sm position-relative" id="footerCredits">
+        <small>Copyright © 2025 Liene Krista Neimane</small>
+
+        <div id="creditsPopup" class="credits-popup">
+            <p>CS50x Final Project</p>
+            <p>Sound effects: 
+                <a href="https://www.zapsplat.com/music/ui-user-interface-alert-game-software-success-loading-complete" target="_blank">Correct sound</a>, 
+                <a href="https://www.zapsplat.com/music/ui-user-interface-alert-game-software-complete-tone" target="_blank">Wrong sound</a>
+            </p>
+            <p>Background music: 
+                <a href="https://ende.app/en/song/13305-tropical-island-house-2025" target="_blank">Tropical Island House 2025 by Sascha Ende</a>
+            </p>
+        </div>
     </footer>
 
     <script src="js/game.js"></script>

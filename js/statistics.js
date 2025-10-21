@@ -1,3 +1,4 @@
+// Load statistics
 function loadStats() {
     const saved = localStorage.getItem('pixPointSpyTopScores');
     if (!saved) return [];
@@ -8,6 +9,16 @@ function loadStats() {
     }
 }
 
+
+// Format time as minutes : seconds
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+
+// Show statistics on a table
 function renderStats() {
     const statsText = document.getElementById('statsText');
     const scores = loadStats();
@@ -24,9 +35,9 @@ function renderStats() {
                     <th>#</th>
                     <th>Date</th>
                     <th>Level</th>
-                    <th>Wrong</th>
+                    <th>Mistakes</th>
                     <th>Hints</th>
-                    <th>Time (s)</th>
+                    <th>Time</th>
                     <th>Score</th>
                 </tr>
             </thead>
@@ -41,7 +52,7 @@ function renderStats() {
                 <td>${s.level}</td>
                 <td>${s.wrong}</td>
                 <td>${s.hints}</td>
-                <td>${s.time}</td>
+                <td>${formatTime(s.time)}</td>
                 <td><strong>${s.score}</strong></td>
             </tr>
         `;
@@ -52,6 +63,7 @@ function renderStats() {
 }
 
 
+// Reset all scores
 function resetStats() {
     localStorage.removeItem('pixPointSpyTopScores');
     renderStats();

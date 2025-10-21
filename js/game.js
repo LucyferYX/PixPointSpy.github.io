@@ -161,6 +161,13 @@ async function startGame() {
 }
 
 
+setInterval(() => {
+    if (gameActive) {
+        updateStatsCard();
+    }
+}, 1000);
+
+
 // Move to the next level
 async function nextLevel() {
     if (!gameActive) 
@@ -185,6 +192,7 @@ async function nextLevel() {
 }
 
 
+// Updating statistics live
 function updateStatsCard() {
     const gridHeight = pixelCount;
     const gridWidth  = Math.floor((3 * gridHeight - 1) / 4);
@@ -193,6 +201,19 @@ function updateStatsCard() {
     document.getElementById('pixelCount').textContent = `${gridHeight} × ${gridWidth}`;
     document.getElementById('correctCount').textContent = correctCount;
     document.getElementById('wrongCount').textContent = wrongCount;
+    document.getElementById('hintCount').textContent = hintCount;
+
+    if (gameActive) {
+        const elapsedSec = Math.floor((Date.now() - startTime) / 1000);
+        const minutes = String(Math.floor(elapsedSec / 60)).padStart(2, '0');
+        const seconds = String(elapsedSec % 60).padStart(2, '0');
+        document.getElementById('timeCounter').textContent = `${minutes}:${seconds}`;
+    } else {
+        const elapsedSec = Math.floor((endTime - startTime) / 1000);
+        const minutes = String(Math.floor(elapsedSec / 60)).padStart(2, '0');
+        const seconds = String(elapsedSec % 60).padStart(2, '0');
+        document.getElementById('timeCounter').textContent = `${minutes}:${seconds}`;
+    }
 }
 
 
@@ -286,6 +307,7 @@ function showHint() {
         return;
 
     hintCount++;
+    updateStatsCard();
 
     const canvas = document.getElementById('canvasAltered');
     const ctx = canvas.getContext('2d');

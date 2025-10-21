@@ -100,6 +100,7 @@ function activateSonicMode() {
     bgMusic.onerror = restoreOriginalMusic;
 }
 
+// Fallback
 function restoreOriginalMusic() {
     bgMusic.pause();
     bgMusic.src = originalMusic;

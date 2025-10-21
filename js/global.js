@@ -61,8 +61,6 @@ volumeSlider.addEventListener('input', () => {
 
 
 
-
-
 // Sonic easter egg
 let typedKeys = '';  
 const originalMusic = 'sounds/music.mp3'
@@ -78,8 +76,6 @@ document.addEventListener('keydown', (e) => {
 });
 
 function activateSonicMode() {
-    console.log('Sonic mode activated!');
-
     bgMusic.pause();
 
     const sonicTrack = 'https://www.squidify.org/rest/stream?u=Guest&t=3a98bc55391946445f6f838063cae8c6&s=40n50kuPl4y3r&v=1.16.0&c=Aonsoku&f=json&id=xEzAh7CognJSXtJVl2SQIr&estimateContentLength=true';
@@ -88,13 +84,15 @@ function activateSonicMode() {
     bgMusic.loop = false;
     bgMusic.currentTime = 0;
 
-    document.body.classList.add('sonic-mode');
-    setTimeout(() => document.body.classList.remove('sonic-mode'), 3000);
+    const dash = document.createElement('div');
+    dash.id = 'sonicDash';
+    document.body.appendChild(dash);
+    setTimeout(() => dash.remove(), 2500);
 
     bgMusic.play().then(() => {
-        console.log('Sonic easter egg found! Playing Undefeatable...');
+        console.log('Easter egg found! Sonic music playing...');
     }).catch(err => {
-        console.warn('Failed to load music. Reverting to normal.', err);
+        console.warn('Failed to play Sonic music. Reverting to normal.', err);
         restoreOriginalMusic();
     });
 

@@ -36,30 +36,30 @@ This project was done as part of Harvard's CS50x course as the final project.
 
 ```
 PixPointSpy.github.io/
-│   index.html
 │   game.html
-│   statistics.html
+│   index.html
 │   README.md
+│   statistics.html
 │
-├── css/
-│   styles.css
+├───css
+│       styles.css
 │
-├── js/
-│   game.js
-│   music.js
-│   statistics.js
-│   theme.js
+├───images
+│       bg-dark.png
+│       bg-light.png
+│       icon.png
+│       pixels.png
 │
-├── images/
-│   bg-dark.png
-│   bg-light.png
-│   icon.png
-│   pixels.png
+├───js
+│       game.js
+│       music.js
+│       statistics.js
+│       theme.js
 │
-└── sounds/
-│   correct.mp3
-│   music.mp3
-│   wrong.mp3
+└───sounds
+        correct.mp3
+        music.mp3
+        wrong.mp3
 ```
 
 ---

@@ -46,8 +46,9 @@ PixPointSpy.github.io/
 │
 ├── js/
 │   game.js
-│   global.js
+│   music.js
 │   statistics.js
+│   theme.js
 │
 ├── images/
 │   bg-dark.png
@@ -56,8 +57,9 @@ PixPointSpy.github.io/
 │   pixels.png
 │
 └── sounds/
-    correct.mp3
-    wrong.mp3
+│   correct.mp3
+│   music.mp3
+│   wrong.mp3
 ```
 
 ---

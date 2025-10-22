@@ -32,43 +32,68 @@
     </nav>
 
     <!-- Main content -->
-    <main class="d-flex align-items-center justify-content-center">
-        <div class="container-fluid">
-            <div class="row align-items-center">
+    <main class="container my-5"  style="padding-top: 50px;">
+        <div class="d-flex align-items-center justify-content-center py-5">
+            <div class="container-fluid px-5">
+                <div class="row g-4 align-items-stretch">
 
-                <!-- LEFT SIDE: Glass card with text -->
-                <div class="col-lg-7 col-md-6 text-center text-md-start">
-                    <div class="glass-card p-5 shadow-lg rounded-4">
-                        <h2 class="display-4 fw-bold mb-3">Pixel spotting game</h2>
-                        <p class="mb-3">
-                            One pixel will differ between 2 images.
-                        </p>
-                        <p class="mb-3">
-                            <b>Click</b> the altered pixel on the <b>right</b> image.
-                        </p>
-                        <p class="mb-3">
-                            Advance through increasingly harder levels.
-                        </p>
-                        <p class="mb-3">
-                            Try to not make any wrong guesses!
-                        </p>
-                        <br>
-                        <a href="game.html" class="btn btn-primary px-5 py-3 rounded-pill shadow-lg font-weight-bold">
-                            Play
-                        </a>
+                    <!-- LEFT SIDE: Glass card -->
+                    <div class="col-lg-7 col-md-7 d-flex">
+                        <div class="glass-card p-5 shadow-lg rounded-4 w-100">
+                            <h2 class="display-4 fw-bold mb-3 text-center">Pixel Spotting Game</h2>
+
+                            <p class="lead text-center mb-3">
+                                A "spot the difference" game about finding a single pixel that differs between two images.
+                            </p>
+                            <br>
+
+                            <h4 class="fw-semibold mb-3">How to play</h4>
+                            <ul class="fs-5 mb-4">
+                                <li class="mb-2">Left-click the <b>altered pixel</b> on the right image to advance to the next level.</li>
+                                <li class="mb-2">Right-click the image to <b>zoom in</b> the image.</li>
+                                <li class="mb-2">Use <b>hints</b> to reveal section the pixel is located at.</li>
+                                <li class="mb-2">Each level increases <b>difficulty</b> as the pixel grid becomes smaller.</li>
+                                <li class="mb-2">Level, time, mistakes and hints used determine your final <b>score</b>.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <!-- RIGHT SIDE: Column with image and card aligned -->
+                    <div class="col-lg-5 col-md-5 d-flex flex-column justify-content-between">
+
+                        <!-- TOP: Image -->
+                        <div class="text-center">
+                            <div class="image-tilt-wrapper mx-auto" style="max-width: 80%;">
+                                <img src="images/pixels.png" alt="Pixel art preview" class="img-fluid tilt-image shadow-lg rounded-4">
+                            </div>
+                        </div>
+
+                        <!-- BOTTOM: Glass card -->
+                        <div class="mt-auto text-center">
+                            <div class="glass-card p-4 shadow-lg rounded-4 mx-auto" style="max-width: 80%;">
+                                <h4 class="fw-bold mb-3">Challenge Yourself</h4><br>
+                                <p class="lead text-center mb-4">
+                                    The game fetches from over <b>1000 random images</b> and selects a <b>different pixel</b> every time you play.
+                                </p>
+                                <p class="mb-4 text-muted">
+                                    Can you beat all 100 levels?
+                                </p>
+                                <div class="text-center">
+                                    <a href="game.html" class="btn btn-primary px-5 py-3 rounded-pill shadow-lg font-weight-bold">
+                                        Play
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <!-- RIGHT SIDE: 3D tilted image -->
-                <div class="col-lg-5 col-md-6 text-center">
-                    <div class="image-tilt-wrapper mx-auto">
-                        <img src="images/pixels.png" alt="Pixel art preview" class="img-fluid tilt-image shadow-lg rounded-4">
-                    </div>
-                </div>
-
             </div>
         </div>
     </main>
+
+
+
 
     <!-- Footer -->
     <footer class="text-center py-3 shadow-sm position-relative" id="footerCredits">

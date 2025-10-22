@@ -76,7 +76,6 @@ body {
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-    /* height: 100%; */
 }
 
 html {
@@ -194,6 +193,22 @@ footer {
     display: block;
 }
 
+
+/* List */
+.glass-card ul {
+    list-style-type: disc;
+    padding-left: 2rem;
+    line-height: 1.6;
+}
+
+.glass-card li {
+    font-size: 20px;
+}
+
+.glass-card li::marker {
+    color: #b56aaf;
+    font-size: 1.5rem;
+}
 
 
 /* --- 3D Tilt Image Effect --- */

@@ -53,6 +53,7 @@ async function loadAndPrepareImage(url = null, maxRetries = 5) {
 }
 
 
+// Pixelating and drawing
 function pixelateImage(img, pixelCount) {
     const smallW = pixelCount;
     const smallH = Math.round(pixelCount * (img.height / img.width));
@@ -117,8 +118,6 @@ async function generateGameImages(pixelCount) {
 
     return { original: originalB64, altered: alteredB64, changed_pixel, debug };
 }
-
-
 
 function drawImageToCanvas(canvasId, dataUrl) {
     const canvas = document.getElementById(canvasId);
@@ -298,6 +297,58 @@ document.getElementById('canvasAltered').addEventListener('mousemove', (e) => {
             cellHeight + 2
         );
     };
+});
+
+
+// Magnifying glass
+const lensCanvas = document.getElementById('lensCanvas');
+const lensCtx = lensCanvas.getContext('2d');
+const mainCanvas = document.getElementById('canvasAltered');
+const zoomFactor = 2.5;
+let lensActive = false;
+
+mainCanvas.addEventListener('contextmenu', e => e.preventDefault());
+mainCanvas.addEventListener('mousedown', e => {
+    if (e.button === 2) lensActive = true;
+});
+mainCanvas.addEventListener('mouseup', e => {
+    if (e.button === 2) {
+        lensActive = false;
+        lensCanvas.style.display = 'none';
+    }
+});
+
+mainCanvas.addEventListener('mousemove', e => {
+    if (!lensActive || !gameActive) {
+        lensCanvas.style.display = 'none';
+        return;
+    }
+
+    const rect = mainCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const size = lensCanvas.width;
+    const zoomSize = size / zoomFactor;
+
+    lensCtx.clearRect(0, 0, lensCanvas.width, lensCanvas.height);
+    lensCtx.save();
+
+    lensCtx.beginPath();
+    lensCtx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+    lensCtx.clip();
+
+    lensCtx.drawImage(
+        mainCanvas,
+        x - zoomSize / 2, y - zoomSize / 2, zoomSize, zoomSize,
+        0, 0, size, size
+    );
+
+    lensCtx.restore();
+
+    lensCanvas.style.left = `${e.clientX - size / 2}px`;
+    lensCanvas.style.top = `${e.clientY - size / 2}px`;
+    lensCanvas.style.display = 'block';
 });
 
 

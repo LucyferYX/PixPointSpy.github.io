@@ -62,8 +62,16 @@
                             <div id="loadingOverlay" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center">
                                 <div class="loading-text text-white font-weight-bold">Loading next level...</div>
                             </div>
+
+                            <!-- Magnifying lens -->
+                            <canvas id="lensCanvas" 
+                                    width="120" 
+                                    height="120" 
+                                    style="display:none; position:absolute; border-radius:50%; pointer-events:none; border:2px solid rgba(255,255,255,0.7); box-shadow:0 0 8px rgba(255,255,255,0.4); z-index:1000;">
+                            </canvas>
                         </div>
                     </div>
+                    <p class="text-muted text-center">Tip: Press and hold to zoom in</p>
                     <p id="restartHint" class="text-muted text-center">Please restart the game!</p>
                 </div>
 

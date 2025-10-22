@@ -76,6 +76,10 @@ const easterEggs = {
     kirby: {
         url: 'https://www.squidify.org/rest/stream?u=Guest&t=3a98bc55391946445f6f838063cae8c6&s=40n50kuPl4y3r&v=1.16.0&c=Aonsoku&f=json&id=n3ovhcjGtYpWFtYAeqoHZQ&estimateContentLength=true',
         effect: activateKirbyEffect
+    },
+    zelda: {
+        url: 'https://www.squidify.org/rest/stream?u=Guest&t=3a98bc55391946445f6f838063cae8c6&s=40n50kuPl4y3r&v=1.16.0&c=Aonsoku&f=json&id=Ka86rgUGEgVOSLyXjXu6zL&estimateContentLength=true',
+        effect: activateZeldaEffect
     }
 };
 
@@ -129,6 +133,15 @@ function activateKirbyEffect() {
     document.body.appendChild(star);
     setTimeout(() => star.remove(), 2500);
 }
+
+// Zelda visual effect
+function activateZeldaEffect() {
+    const triforce = document.createElement('div');
+    triforce.id = 'zeldaTriforce';
+    document.body.appendChild(triforce);
+    setTimeout(() => triforce.remove(), 2500);
+}
+
 
 // Restore normal background music
 function restoreOriginalMusic() {

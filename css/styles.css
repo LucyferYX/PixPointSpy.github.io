@@ -398,6 +398,20 @@ canvas {
 }
 
 
+/* Magnifying glass */
+#lensCanvas {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    pointer-events: none;
+    border: 2px solid var(--btn-primary-bg) !important;
+    box-shadow: 0 0 8px var(--glass-text-muted) !important;
+    z-index: 1000;
+    display: none;
+}
+
+
 /* Game info styling */
 .stats-panel {
     background: rgba(255, 255, 255, 0.7);

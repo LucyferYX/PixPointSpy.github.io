@@ -1,23 +1,3 @@
-// Change dark and light theme
-const themeToggle = document.getElementById('themeToggle');
-themeToggle.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    if (currentTheme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'light');
-        localStorage.setItem('theme', 'light');
-    } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        localStorage.setItem('theme', 'dark');
-    }
-});
-
-
-const savedTheme = localStorage.getItem('theme') || 'light';
-document.documentElement.setAttribute('data-theme', savedTheme);
-
-
-
-
 // Music and volume
 const musicButton = document.getElementById('musicButton');
 const musicDropdown = musicButton.closest('.music-dropdown');
@@ -138,10 +118,11 @@ function activateKirbyEffect() {
 function activateZeldaEffect() {
     const triforce = document.createElement('div');
     triforce.id = 'zeldaTriforce';
+    const topTriangle = document.createElement('div');
+    triforce.appendChild(topTriangle);
     document.body.appendChild(triforce);
     setTimeout(() => triforce.remove(), 2500);
 }
-
 
 // Restore normal background music
 function restoreOriginalMusic() {

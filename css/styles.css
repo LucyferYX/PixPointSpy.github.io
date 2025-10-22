@@ -556,3 +556,65 @@ canvas {
     50% { transform: translateX(50vw) translateY(-50px) scale(1.2); }
     100% { transform: translateX(110vw) translateY(0) scale(0.8); opacity: 0; }
 }
+
+
+/* Zelda easter egg */
+#zeldaTriforce {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    transform: translate(-50%, -50%) scale(1);
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    animation: triforce-appear 1s ease-out forwards;
+}
+
+#zeldaTriforce::before,
+#zeldaTriforce::after,
+#zeldaTriforce div {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 52px solid gold;
+    filter: drop-shadow(0 0 15px #9a7f1db0);
+}
+
+#zeldaTriforce::before {
+    transform: translate(-32px, 26px);
+}
+
+#zeldaTriforce::after {
+    transform: translate(32px, 26px);
+}
+
+#zeldaTriforce div {
+    transform: translate(0, -26px);
+}
+
+@keyframes triforce-appear {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+        filter: brightness(1);
+    }
+    30% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        filter: brightness(1.5);
+    }
+    60% {
+        transform: translate(-50%, -50%) scale(1.1);
+        filter: brightness(2);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+        filter: brightness(1);
+    }
+}

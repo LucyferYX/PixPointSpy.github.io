@@ -9,7 +9,6 @@ function loadStats() {
     }
 }
 
-
 // Format time as minutes : seconds
 function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
@@ -17,14 +16,15 @@ function formatTime(seconds) {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
 
-
 // Show statistics on a table
 function renderStats() {
     const statsText = document.getElementById('statsText');
     const scores = loadStats();
 
+    const t = translations[currentLang]; // shorthand
+
     if (scores.length === 0) {
-        statsText.textContent = "No completed games yet. Play a few rounds to start your leaderboard!";
+        statsText.textContent = t.stats_empty;
         return;
     }
 
@@ -32,13 +32,13 @@ function renderStats() {
         <table class="table table-striped table-bordered mt-3">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Date</th>
-                    <th>Level</th>
-                    <th>Mistakes</th>
-                    <th>Hints</th>
-                    <th>Time</th>
-                    <th>Score</th>
+                    <th>${t.table_rank}</th>
+                    <th>${t.table_date}</th>
+                    <th>${t.table_level}</th>
+                    <th>${t.table_mistakes}</th>
+                    <th>${t.table_hints}</th>
+                    <th>${t.table_time}</th>
+                    <th>${t.table_score}</th>
                 </tr>
             </thead>
             <tbody>
@@ -61,7 +61,6 @@ function renderStats() {
     html += `</tbody></table>`;
     statsText.innerHTML = html;
 }
-
 
 // Reset all scores
 function resetStats() {

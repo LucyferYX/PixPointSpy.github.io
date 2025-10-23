@@ -11,7 +11,7 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
           crossorigin="anonymous">
 
-    <title>PixPointSpy Menu</title>
+    <title>PixPointSpy</title>
 </head>
 
 <body>
@@ -22,42 +22,61 @@
                 <a class="nav-link" href="index.html"><i class="bi bi-x-diamond"></i> PixPointSpy</a>
             </div>
             <div class="d-flex ms-auto">
-                <a class="nav-link" href="game.html"><i class="bi bi-controller"></i> Game</a>
+                <a class="nav-link" href="game.html">
+                    <i class="bi bi-controller"></i> <span data-key="game">Game</span>
+                </a>
                 <div class="nav-divider mx-3"></div>
-                <a class="nav-link" href="statistics.html"><i class="bi bi-bar-chart"></i> Statistics</a>
+                <a class="nav-link" href="statistics.html">
+                    <i class="bi bi-bar-chart"></i> <span data-key="statistics">Statistics</span>
+                </a>
                 <div class="nav-divider mx-3"></div>
-                <button id="themeToggle" class="btn nav-link" style="font-size: 2rem; font-weight: bold;"><i class="bi bi-moon"></i></button>
+                <button id="themeToggle" class="btn nav-link" style="font-size: 2rem; font-weight: bold;">
+                    <i class="bi bi-moon"></i>
+                </button>
+                <div class="nav-divider mx-3"></div>
+                <button id="lang-btn" class="btn nav-link" style="font-size: 2rem; font-weight: bold;">LV</button>
             </div>
         </div>
     </nav>
 
     <!-- Main content -->
-    <main class="container my-5"  style="padding-top: 50px;">
+    <main class="container my-5" style="padding-top: 50px;">
         <div class="d-flex align-items-center justify-content-center py-5">
-            <div class="container-fluid px-5">
+            <div class="container-fluid px-2">
                 <div class="row g-4 align-items-stretch">
 
                     <!-- LEFT SIDE: Glass card -->
                     <div class="col-lg-7 col-md-7 d-flex">
                         <div class="glass-card p-5 shadow-lg rounded-4 w-100">
-                            <h2 class="display-4 fw-bold mb-3 text-center">Pixel Spotting Game</h2>
+                            <h2 class="display-4 fw-bold mb-3 text-center" data-key="heading_main">
+                                Pixel Spotting Game
+                            </h2>
 
-                            <p class="lead text-center mb-3">
+                            <p class="lead text-center mb-3" data-key="description_main">
                                 A "spot the difference" game about finding a single pixel that differs between two images.
                             </p>
                             <br>
 
-                            <h4 class="fw-semibold mb-3">How to play</h4>
+                            <h4 class="fw-semibold mb-3" data-key="heading_how_to_play">How to play</h4>
                             <ul class="fs-5 mb-4">
-                                <li class="mb-2">Left-click the <b>altered pixel</b> on the right image to advance to the next level.</li>
-                                <li class="mb-2">Right-click the image to <b>zoom in</b> the image.</li>
-                                <li class="mb-2">Use <b>hints</b> to reveal section the pixel is located at.</li>
-                                <li class="mb-2">Each level increases <b>difficulty</b> as the pixel grid becomes smaller.</li>
-                                <li class="mb-2">Level, time, mistakes and hints used determine your final <b>score</b>.</li>
+                                <li class="mb-2" data-key="rule_1">
+                                    Left-click the <b>altered pixel</b> on the right image to advance to the next level.
+                                </li>
+                                <li class="mb-2" data-key="rule_2">
+                                    Right-click the image to <b>zoom in</b> the image.
+                                </li>
+                                <li class="mb-2" data-key="rule_3">
+                                    Use <b>hints</b> to reveal section the pixel is located at.
+                                </li>
+                                <li class="mb-2" data-key="rule_4">
+                                    Each level increases <b>difficulty</b> as the pixel grid becomes smaller.
+                                </li>
+                                <li class="mb-2" data-key="rule_5">
+                                    Level, time, mistakes and hints used determine your final <b>score</b>.
+                                </li>
                             </ul>
                         </div>
                     </div>
-
 
                     <!-- RIGHT SIDE: Column with image and card aligned -->
                     <div class="col-lg-5 col-md-5 d-flex flex-column justify-content-between">
@@ -72,15 +91,15 @@
                         <!-- BOTTOM: Glass card -->
                         <div class="mt-auto text-center">
                             <div class="glass-card p-4 shadow-lg rounded-4 mx-auto" style="max-width: 80%;">
-                                <h4 class="fw-bold mb-3">Challenge Yourself</h4><br>
-                                <p class="lead text-center mb-4">
+                                <h4 class="fw-bold mb-3" data-key="challenge_heading">Challenge Yourself</h4><br>
+                                <p class="lead text-center mb-4" data-key="challenge_description">
                                     The game fetches from over <b>1000 random images</b> and selects a <b>different pixel</b> every time you play.
                                 </p>
-                                <p class="mb-4 text-muted">
+                                <p class="mb-4 text-muted" data-key="challenge_question">
                                     Can you beat all 100 levels?
                                 </p>
                                 <div class="text-center">
-                                    <a href="game.html" class="btn btn-primary px-5 py-3 rounded-pill shadow-lg font-weight-bold">
+                                    <a href="game.html" class="btn btn-primary px-5 py-3 rounded-pill shadow-lg font-weight-bold" data-key="play_button">
                                         Play
                                     </a>
                                 </div>
@@ -94,24 +113,27 @@
 
     <!-- Footer -->
     <footer class="text-center py-3 shadow-sm position-relative" id="footerCredits">
-        <small>Copyright © 2025 Liene Krista Neimane</small>
+        <small data-key="footer_copyright">Copyright © 2025 Liene Krista Neimane</small>
 
         <div id="creditsPopup" class="credits-popup">
-            <p>Photos: 
+            <p>
+                <span data-key="footer_photos">Photos:</span>
                 <a href="https://picsum.photos" target="_blank">Lorem Picsum</a>
             </p>
-            <p>Sound effects: 
-                <a href="https://www.zapsplat.com/music/ui-user-interface-alert-game-software-success-loading-complete" target="_blank">Zapsplat - Correct</a>, 
-                <a href="https://www.zapsplat.com/music/ui-user-interface-alert-game-software-complete-tone" target="_blank">Zapsplat - Wrong</a>
+            <p>
+                <span data-key="footer_sounds">Sound effects:</span>
+                <a href="https://www.zapsplat.com/music/ui-user-interface-alert-game-software-success-loading-complete" target="_blank" data-key="source_correct">Zapsplat - Correct</a>,
+                <a href="https://www.zapsplat.com/music/ui-user-interface-alert-game-software-complete-tone" target="_blank" data-key="source_wrong">Zapsplat - Wrong</a>
             </p>
-            <p>Background music: 
+            <p>
+                <span data-key="footer_music">Background music:</span>
                 <a href="https://open.spotify.com/track/3JNG0zIgEMEs5UwEFeDVWr?si=c840a1ca27224885" target="_blank">Max Seraph & ELme - Folium</a>
             </p>
         </div>
     </footer>
 
-
     <script src="js/theme.js"></script>
+    <script src="js/language.js"></script>
 </body>
 
 </html>

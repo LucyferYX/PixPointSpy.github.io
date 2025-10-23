@@ -42,7 +42,6 @@ volumeSlider.addEventListener('input', () => {
 
 
 
-
 // Easter egg music
 let typedKeys = '';
 const originalMusic = 'sounds/music.mp3';

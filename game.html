@@ -11,7 +11,7 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
           crossorigin="anonymous">
 
-    <title>PixPointSpy Game</title>
+    <title data-key="title_game">PixPointSpy Game</title>
 </head>
 
 <body>
@@ -24,9 +24,13 @@
                 <a class="nav-link" href="index.html"><i class="bi bi-x-diamond"></i> PixPointSpy</a>
             </div>
             <div class="d-flex ms-auto">
-                <a class="nav-link" href="game.html"><i class="bi bi-controller"></i> Game</a>
+                <a class="nav-link" href="game.html">
+                    <i class="bi bi-controller"></i> <span data-key="game">Game</span>
+                </a>
                 <div class="nav-divider mx-3"></div>
-                <a class="nav-link" href="statistics.html"><i class="bi bi-bar-chart"></i> Statistics</a>
+                <a class="nav-link" href="statistics.html">
+                    <i class="bi bi-bar-chart"></i> <span data-key="statistics">Statistics</span>
+                </a>
                 <div class="nav-divider mx-3"></div>
                 <div class="nav-item music-dropdown">
                     <button id="musicButton" class="btn nav-link d-flex align-items-center" style="font-size: 2rem; font-weight: bold;"><i class="bi bi-volume-up"></i></button>
@@ -35,7 +39,12 @@
                     </div>
                 </div>
                 <div class="nav-divider mx-3"></div>
-                <button id="themeToggle" class="btn nav-link" style="font-size: 2rem; font-weight: bold;"><i class="bi bi-moon"></i></button>
+                <button id="themeToggle" class="btn nav-link" style="font-size: 2rem; font-weight: bold;">
+                    <i class="bi bi-moon"></i>
+                </button>
+                <div class="nav-divider mx-3"></div>
+                <button id="lang-btn" class="btn nav-link" style="font-size: 2rem; font-weight: bold;">LV</button>
+            </div>
             </div>
         </div>
     </nav>
@@ -44,10 +53,13 @@
     <main class="container-fluid my-5" style="padding-top: 70px;">
         <div class="row justify-content-center">
             <div class="col-lg-10 d-flex justify-content-between mb-4">
+                
                 <!-- Left card -->
                 <div class="card game-card flex-grow-1 shadow-lg" style="max-width: 70%;">
                     <div class="card-body text-center">
-                        <h4 class="card-title mb-4 font-weight-bold">Spot the Difference</h4>
+                        <h4 class="card-title mb-4 font-weight-bold" data-key="title_spot_diff">
+                            Spot the Difference
+                        </h4>
                         <div id="canvasContainer" class="canvas-container position-relative">
                             <div class="canvas-box">
                                 <p>1</p>
@@ -60,64 +72,76 @@
 
                             <!-- Overlay -->
                             <div id="loadingOverlay" class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center">
-                                <div class="loading-text text-white font-weight-bold">Loading next level...</div>
+                                <div class="loading-text text-white font-weight-bold" data-key="loading_next_level">
+                                    Loading next level...
+                                </div>
                             </div>
 
                             <!-- Magnifying lens -->
-                            <canvas id="lensCanvas" 
-                                    width="120" 
-                                    height="120" 
+                            <canvas id="lensCanvas"
+                                    width="120"
+                                    height="120"
                                     style="display:none; position:absolute; border-radius:50%; pointer-events:none; border:2px solid rgba(255,255,255,0.7); box-shadow:0 0 8px rgba(255,255,255,0.4); z-index:1000;">
                             </canvas>
                         </div>
                     </div>
-                    <p id="restartHint" class="text-muted text-center">Please restart the game!</p>
+                    <p id="restartHint" class="text-muted text-center" data-key="restart_hint">
+                        Please restart the game!
+                    </p>
                 </div>
 
                 <!-- Right card -->
                 <div class="card info-card flex-grow-1 shadow-lg ms-auto" style="max-width: 25%;">
                     <div class="card-body text-center d-flex flex-column">
-                        <h4 class="card-title mb-4 font-weight-bold">Game Info</h4>
+                        <h4 class="card-title mb-4 font-weight-bold" data-key="game_info">
+                            Game Info
+                        </h4>
 
                         <!-- Restart button -->
-                        <button id="startBtn" class="btn start-btn btn-lg mb-4 mt-auto">Restart Game</button>
+                        <button id="startBtn" class="btn start-btn btn-lg mb-4 mt-auto" data-key="restart_game">
+                            Restart Game
+                        </button>
 
                         <!-- Game stats -->
                         <div class="stats-panel mt-3">
                             <div class="stat-item">
-                                <span class="stat-label">Level</span>
+                                <span class="stat-label" data-key="level_label">Level</span>
                                 <span id="levelCounter" class="stat-value">1</span>
                             </div>
                             <div class="stat-item">
-                                <span class="stat-label">Pixel Grid</span>
+                                <span class="stat-label" data-key="pixel_grid_label">Pixel Grid</span>
                                 <span id="pixelCount" class="stat-value">3 x 5</span>
                             </div>
                             <div class="stat-divider"></div>
                             <div class="stat-item text-info">
-                                <span class="stat-label"><i class="bi bi-clock"></i> Time</span>
+                                <span class="stat-label"><i class="bi bi-clock"></i> <span data-key="time_label">Time</span></span>
                                 <span id="timeCounter" class="stat-value">00:00</span>
                             </div>
                             <div class="stat-divider"></div>
                             <div class="stat-item text-warning">
-                                <span class="stat-label"><i class="bi bi-lightbulb"></i> Hints</span>
+                                <span class="stat-label"><i class="bi bi-lightbulb"></i> <span data-key="hints_label">Hints</span></span>
                                 <span id="hintCount" class="stat-value">0</span>
                             </div>
                             <div class="stat-item text-success" style="display:none;">
-                                <span class="stat-label"><i class="bi bi-check2"></i> Correct</span>
+                                <span class="stat-label"><i class="bi bi-check2"></i> <span data-key="correct_label">Correct</span></span>
                                 <span id="correctCount" class="stat-value">0</span>
                             </div>
                             <div class="stat-item text-danger">
-                                <span class="stat-label"><i class="bi bi-x-lg"></i> Mistakes</span>
+                                <span class="stat-label"><i class="bi bi-x-lg"></i> <span data-key="mistakes_label">Mistakes</span></span>
                                 <span id="wrongCount" class="stat-value">0</span>
                             </div>
                         </div>
 
                         <!-- Hint button -->
                         <br>
-                        <button id="hintBtn" class="btn start-btn btn-lg mb-4 mt-auto">Hint</button>
+                        <button id="hintBtn" class="btn start-btn btn-lg mb-4 mt-auto" data-key="hint_button">
+                            Hint
+                        </button>
 
                         <!-- Surrender button -->
-                        <button id="surrenderBtn" class="btn start-btn btn-lg mb-4 mt-auto">Surrender</button>
+                        <button id="surrenderBtn" class="btn start-btn btn-lg mb-4 mt-auto" data-key="surrender_button">
+                            Surrender
+                        </button>
                     </div>
                 </div>
             </div>
@@ -126,17 +150,20 @@
 
     <!-- Footer -->
     <footer class="text-center py-3 shadow-sm position-relative" id="footerCredits">
-        <small>Copyright © 2025 Liene Krista Neimane</small>
+        <small data-key="footer_copyright">Copyright © 2025 Liene Krista Neimane</small>
 
         <div id="creditsPopup" class="credits-popup">
-            <p>Photos: 
+            <p>
+                <span data-key="footer_photos">Photos:</span>
                 <a href="https://picsum.photos" target="_blank">Lorem Picsum</a>
             </p>
-            <p>Sound effects: 
-                <a href="https://www.zapsplat.com/music/ui-user-interface-alert-game-software-success-loading-complete" target="_blank">Zapsplat - Correct</a>, 
-                <a href="https://www.zapsplat.com/music/ui-user-interface-alert-game-software-complete-tone" target="_blank">Zapsplat - Wrong</a>
+            <p>
+                <span data-key="footer_sounds">Sound effects:</span>
+                <a href="https://www.zapsplat.com/music/ui-user-interface-alert-game-software-success-loading-complete" target="_blank" data-key="source_correct">Zapsplat - Correct</a>,
+                <a href="https://www.zapsplat.com/music/ui-user-interface-alert-game-software-complete-tone" target="_blank" data-key="source_wrong">Zapsplat - Wrong</a>
             </p>
-            <p>Background music: 
+            <p>
+                <span data-key="footer_music">Background music:</span>
                 <a href="https://open.spotify.com/track/3JNG0zIgEMEs5UwEFeDVWr?si=c840a1ca27224885" target="_blank">Max Seraph & ELme - Folium</a>
             </p>
         </div>
@@ -145,5 +172,6 @@
     <script src="js/game.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/music.js"></script>
+    <script src="js/language.js"></script>
 </body>
 </html>

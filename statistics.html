@@ -11,7 +11,7 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
           crossorigin="anonymous">
     
-    <title>PixPointSpy Statistics</title>
+    <title data-key="title_statistics">PixPointSpy Statistics</title>
 </head>
 
 <body>
@@ -22,24 +22,36 @@
                 <a class="nav-link" href="index.html"><i class="bi bi-x-diamond"></i> PixPointSpy</a>
             </div>
             <div class="d-flex ms-auto">
-                <a class="nav-link" href="game.html"><i class="bi bi-controller"></i> Game</a>
+                <a class="nav-link" href="game.html">
+                    <i class="bi bi-controller"></i> <span data-key="game">Game</span>
+                </a>
                 <div class="nav-divider mx-3"></div>
-                <a class="nav-link" href="statistics.html"><i class="bi bi-bar-chart"></i> Statistics</a>
+                <a class="nav-link" href="statistics.html">
+                    <i class="bi bi-bar-chart"></i> <span data-key="statistics">Statistics</span>
+                </a>
                 <div class="nav-divider mx-3"></div>
-                <button id="themeToggle" class="btn nav-link" style="font-size: 2rem; font-weight: bold;"><i class="bi bi-moon"></i></button>
+                <button id="themeToggle" class="btn nav-link" style="font-size: 2rem; font-weight: bold;">
+                    <i class="bi bi-moon"></i>
+                </button>
+                <div class="nav-divider mx-3"></div>
+                <button id="lang-btn" class="btn nav-link" style="font-size: 2rem; font-weight: bold;">LV</button>
             </div>
         </div>
     </nav>
 
     <!-- Main content -->
-    <main class="container my-5"  style="padding-top: 70px;">
+    <main class="container my-5" style="padding-top: 70px;">
 
         <!-- Statistics table -->
         <div class="glass-card shadow-sm text-center">
             <div class="card-body">
-                <h5 class="card-title mb-3">Your game statistics</h5>
-                <p class="card-text" id="statsText">Loading...</p>
-                <button id="resetStatsBtn" class="btn btn-outline-danger mt-3">Reset statistics</button>
+                <h5 class="card-title mb-3" data-key="title_statistics">
+                    Your game statistics
+                </h5>
+                <p class="card-text" id="statsText" data-key="stats_loading">Loading...</p>
+                <button id="resetStatsBtn" class="btn btn-outline-danger mt-3" data-key="reset_stats">
+                    Reset statistics
+                </button>
             </div>
         </div>
         <br>
@@ -47,30 +59,44 @@
         <!-- Statistics explanation -->
         <div class="glass-card shadow-sm text-center mt-4">
             <div class="card-body">
-                <h5 class="card-title mb-3">How your score is calculated</h5>
+                <h5 class="card-title mb-3" data-key="title_score_calc">
+                    How your score is calculated
+                </h5>
                 <ul class="list-group list-group-flush text-start">
-                    <li class="list-group-item"><strong>Correct guess:</strong> +100 points each</li>
-                    <li class="list-group-item"><strong>Mistakes:</strong> -50 points each</li>
-                    <li class="list-group-item"><strong>Hint used:</strong> -20 points each</li>
-                    <li class="list-group-item"><strong>Time taken:</strong> -0.5 points per second</li>
+                    <li class="list-group-item" data-key="correct_guess">
+                        <strong>Correct guess:</strong> +100 points each
+                    </li>
+                    <li class="list-group-item" data-key="mistakes_penalty">
+                        <strong>Mistakes:</strong> -50 points each
+                    </li>
+                    <li class="list-group-item" data-key="hint_penalty">
+                        <strong>Hint used:</strong> -20 points each
+                    </li>
+                    <li class="list-group-item" data-key="time_penalty">
+                        <strong>Time taken:</strong> -0.5 points per second
+                    </li>
                 </ul>
             </div>
         </div>
     </main>
 
+
     <!-- Footer -->
     <footer class="text-center py-3 shadow-sm position-relative" id="footerCredits">
-        <small>Copyright © 2025 Liene Krista Neimane</small>
+        <small data-key="footer_copyright">Copyright © 2025 Liene Krista Neimane</small>
 
         <div id="creditsPopup" class="credits-popup">
-            <p>Photos: 
+            <p>
+                <span data-key="footer_photos">Photos:</span>
                 <a href="https://picsum.photos" target="_blank">Lorem Picsum</a>
             </p>
-            <p>Sound effects: 
-                <a href="https://www.zapsplat.com/music/ui-user-interface-alert-game-software-success-loading-complete" target="_blank">Zapsplat - Correct</a>, 
-                <a href="https://www.zapsplat.com/music/ui-user-interface-alert-game-software-complete-tone" target="_blank">Zapsplat - Wrong</a>
+            <p>
+                <span data-key="footer_sounds">Sound effects:</span>
+                <a href="https://www.zapsplat.com/music/ui-user-interface-alert-game-software-success-loading-complete" target="_blank" data-key="source_correct">Zapsplat - Correct</a>,
+                <a href="https://www.zapsplat.com/music/ui-user-interface-alert-game-software-complete-tone" target="_blank" data-key="source_wrong">Zapsplat - Wrong</a>
             </p>
-            <p>Background music: 
+            <p>
+                <span data-key="footer_music">Background music:</span>
                 <a href="https://open.spotify.com/track/3JNG0zIgEMEs5UwEFeDVWr?si=c840a1ca27224885" target="_blank">Max Seraph & ELme - Folium</a>
             </p>
         </div>
@@ -78,6 +104,7 @@
 
     <script src="js/statistics.js"></script>
     <script src="js/theme.js"></script>
+    <script src="js/language.js"></script>
 </body>
 
 </html>

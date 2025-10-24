@@ -430,7 +430,7 @@ function surrenderGame() {
         ctx.imageSmoothingEnabled = false;
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 2;
         ctx.strokeStyle = 'red';
         ctx.strokeRect(
             gridInfo.x * cellWidth - 1,

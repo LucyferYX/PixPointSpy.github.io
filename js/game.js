@@ -250,9 +250,6 @@ document.getElementById('canvasAltered').addEventListener('click', (e) => {
 
         if (currentLevel > 100) {
             alert("Congratulations! You’ve completed all 100 levels!");
-            gameActive = false;
-            saveFinalScore();
-            return;
         }
 
         nextLevel();

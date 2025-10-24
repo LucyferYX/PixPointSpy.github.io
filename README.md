@@ -52,6 +52,7 @@ PixPointSpy.github.io/
 │
 ├───js
 │       game.js
+│       language.js
 │       music.js
 │       statistics.js
 │       theme.js

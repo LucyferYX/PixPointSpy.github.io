@@ -248,8 +248,8 @@ document.getElementById('canvasAltered').addEventListener('click', (e) => {
 
         updateStatsCard();
 
-        if (currentLevel > 100) {
-            alert("Congratulations! You’ve completed all 100 levels!");
+        if (currentLevel = 100) {
+            alert("Congratulations! You’ve completed all 100 levels! However, you can continue leveling up as long as you want!");
         }
 
         nextLevel();

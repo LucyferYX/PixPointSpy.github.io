@@ -18,7 +18,7 @@ const translations = {
 
         challenge_heading: "Challenge Yourself!",
         challenge_description: "The game fetches from over <b>1000 random images</b> and selects a <b>different pixel</b> every time you play.",
-        challenge_question: "Can you beat all 100 levels?",
+        challenge_question: "Can you beat 100 levels?",
         play_button: "Play",
 
         footer_copyright: "Copyright © 2025 Liene Krista Neimane",
@@ -82,7 +82,7 @@ const translations = {
 
         challenge_heading: "Izaicini sevi!",
         challenge_description: "Spēle izmanto vairāk nekā <b>1000 dažādu attēlu</b> un katru reizi izvēlas <b>izmainīt citu pikseli</b>.",
-        challenge_question: "Vai vari pieveikt visus 100 līmeņus?",
+        challenge_question: "Vai vari pieveikt 100 līmeņus?",
         play_button: "Spēlēt",
 
         footer_copyright: "Autortiesības © 2025 Liene Krista Neimane",

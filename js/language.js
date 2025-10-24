@@ -44,7 +44,7 @@ const translations = {
         surrender_button: "Surrender",
 
         // Statistics.html
-        title_statistics: "Your game statistics",
+        title_card_statistics: "Your game statistics",
         stats_loading: "Loading...",
         reset_stats: "Reset statistics",
         title_score_calc: "How your score is calculated",

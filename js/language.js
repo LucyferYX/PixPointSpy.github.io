@@ -49,8 +49,8 @@ const translations = {
         reset_stats: "Reset statistics",
         title_score_calc: "How your score is calculated",
         correct_guess: "<strong>Correct guess:</strong> +100 points each",
-        mistakes_penalty: "<strong>Mistakes:</strong> -50 points each",
-        hint_penalty: "<strong>Hint used:</strong> -20 points each",
+        mistakes_penalty: "<strong>Mistakes:</strong> -30 points each",
+        hint_penalty: "<strong>Hint used:</strong> -10 points each",
         time_penalty: "<strong>Time taken:</strong> -0.5 points per second",
 
         // Statistics.js
@@ -113,8 +113,8 @@ const translations = {
         reset_stats: "Izdzēst esošos rezultātus",
         title_score_calc: "Kā rezultāts tiek aprēķināts",
         correct_guess: "<strong>Pareiza atbilde:</strong> +100 punkti par katru",
-        mistakes_penalty: "<strong>Kļūdas:</strong> -50 punkti par katru",
-        hint_penalty: "<strong>Izmantots padoms:</strong> -20 punkti par katru",
+        mistakes_penalty: "<strong>Kļūdas:</strong> -30 punkti par katru",
+        hint_penalty: "<strong>Izmantots padoms:</strong> -10 punkti par katru",
         time_penalty: "<strong>Spēles laiks:</strong> -0.5 punkti par katru sekundi",
         
         // Statistics.js

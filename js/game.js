@@ -495,9 +495,9 @@ function calculateFinalScore() {
     const totalTimeSec = Math.round((endTime - startTime) / 1000);
 
     const score = (correctCount * 100)
-                - (wrongCount * 50)
-                - (hintCount * 20)
-                - (totalTimeSec / 2);
+                - (wrongCount * 30)
+                - (hintCount * 10)
+                - (totalTimeSec / 1);
 
     return {
         date: new Date().toLocaleString(),

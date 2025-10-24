@@ -248,7 +248,7 @@ document.getElementById('canvasAltered').addEventListener('click', (e) => {
 
         updateStatsCard();
 
-        if (currentLevel = 100) {
+        if (currentLevel == 100) {
             alert("Congratulations! You’ve completed all 100 levels! However, you can continue leveling up as long as you want!");
         }
 
@@ -285,7 +285,7 @@ document.getElementById('canvasAltered').addEventListener('mousemove', (e) => {
         ctx.imageSmoothingEnabled = false;
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1;
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
         ctx.strokeRect(
             hoverX * cellWidth - 1,

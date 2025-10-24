@@ -13,11 +13,13 @@ This project was done as part of Harvard's CS50x course as the final project.
 - **Image loading**: Random images are fetched from Lorem Picsum service each round.  
 - **Increasing difficulty**: The number of pixels to spot increases with each level.
 - **Gameplay variety**: The randomized nature of altered pixel and fetched image avoids repetiteveness.
+- **Magnifying glass**: The game has magnifying glass functionality which let's you zoom in on the image.
 - **Hints**: Hints can be used to help find the altered pixel with minor penalties.
 - **Surrendering**: Surrender button can be used to reveal the altered pixel.
 - **Score tracking**: Records top 10 best scores including level reached, wrong guesses, hints used and completion time.   
 - **Dark/light mode**: Toggle between dark and light themes.
 - **Music**: The gameplay is accompanied by a nice tune and sound effects.
+- **ENG/LV support**: Project has both English and Latvian language support.
 
 ---
 

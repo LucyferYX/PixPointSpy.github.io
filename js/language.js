@@ -108,7 +108,7 @@ const translations = {
         surrender_button: "Padoties",
 
         // Statistics.html
-        title_statistics: "Tava spēles statistika",
+        title_card_statistics: "Tava spēles statistika",
         stats_loading: "Ielādējas...",
         reset_stats: "Izdzēst esošos rezultātus",
         title_score_calc: "Kā rezultāts tiek aprēķināts",

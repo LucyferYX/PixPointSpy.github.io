@@ -314,10 +314,20 @@ document.getElementById('canvasAltered').addEventListener('mousemove', (e) => {
 
 
 // Magnifying glass
+function getAdaptiveZoomFactor() {
+    if (!gridInfo) {
+        console.log(`Didn't get grid info.`);
+        return 1;
+    }
+
+    const scale = Math.log2(gridInfo.w / 10 + 1);
+    return Math.min(6, 2 + scale * 1.5);
+}
+
 const lensCanvas = document.getElementById('lensCanvas');
 const lensCtx = lensCanvas.getContext('2d');
 const mainCanvas = document.getElementById('canvasAltered');
-const zoomFactor = 2.5;
+const zoomFactor = getAdaptiveZoomFactor();
 let lensActive = false;
 
 mainCanvas.addEventListener('contextmenu', e => e.preventDefault());
@@ -332,7 +342,7 @@ mainCanvas.addEventListener('mouseup', e => {
 });
 
 mainCanvas.addEventListener('mousemove', e => {
-    if (!lensActive) {
+    if (!lensActive || !gridInfo) {
         lensCanvas.style.display = 'none';
         return;
     }
@@ -342,16 +352,37 @@ mainCanvas.addEventListener('mousemove', e => {
     const y = e.clientY - rect.top;
 
     const lensSize = lensCanvas.width;
-    const zoomFactor = 3; // Adjust as needed
-    const zoomSize = lensSize / zoomFactor;
+
+    const visibleCells = 5; 
+
+    const cellW = mainCanvas.width / gridInfo.w;
+    const cellH = mainCanvas.height / gridInfo.h;
+
+    const zoomWidth = visibleCells * cellW;
+    const zoomHeight = visibleCells * cellH;
+
+    const srcX = x - zoomWidth / 2;
+    const srcY = y - zoomHeight / 2;
 
     const ctxMain = mainCanvas.getContext('2d');
-    const imgData = ctxMain.getImageData(
-        Math.max(0, x - zoomSize / 2),
-        Math.max(0, y - zoomSize / 2),
-        zoomSize,
-        zoomSize
-    );
+
+    const offCanvas = document.createElement('canvas');
+    offCanvas.width = zoomWidth;
+    offCanvas.height = zoomHeight;
+    const offCtx = offCanvas.getContext('2d');
+
+    offCtx.fillStyle = getComputedStyle(document.body).getPropertyValue('--bg-color') || '#000';
+    offCtx.fillRect(0, 0, zoomWidth, zoomHeight);
+
+    const readX = Math.max(0, srcX);
+    const readY = Math.max(0, srcY);
+    const readW = Math.min(mainCanvas.width - readX, zoomWidth);
+    const readH = Math.min(mainCanvas.height - readY, zoomHeight);
+
+    if (readW > 0 && readH > 0) {
+        const imgData = ctxMain.getImageData(readX, readY, readW, readH);
+        offCtx.putImageData(imgData, readX - srcX, readY - srcY);
+    }
 
     lensCtx.clearRect(0, 0, lensSize, lensSize);
     lensCtx.save();
@@ -359,20 +390,15 @@ mainCanvas.addEventListener('mousemove', e => {
     lensCtx.arc(lensSize / 2, lensSize / 2, lensSize / 2, 0, Math.PI * 2);
     lensCtx.clip();
 
-    // Draw the zoomed region (browser handles smoothing off)
     lensCtx.imageSmoothingEnabled = false;
-    lensCtx.putImageData(imgData, 0, 0);
-    lensCtx.drawImage(
-        lensCanvas,
-        0, 0, zoomSize, zoomSize,
-        0, 0, lensSize, lensSize
-    );
-
+    lensCtx.drawImage(offCanvas, 0, 0, zoomWidth, zoomHeight, 0, 0, lensSize, lensSize);
     lensCtx.restore();
+
     lensCanvas.style.left = `${e.clientX - lensSize / 2}px`;
     lensCanvas.style.top = `${e.clientY - lensSize / 2}px`;
     lensCanvas.style.display = 'block';
 });
+
 
 
 // Show hint

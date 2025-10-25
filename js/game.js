@@ -4,6 +4,8 @@ let gameActive = false;
 let lastClickTime = 0;
 let alteredPixelData = null;
 
+const ALTER_ATTEMPTS = 30;
+
 // Canvas size scaling
 const MAX_CANVAS_WIDTH = 420;
 const MAX_CANVAS_HEIGHT = 420;
@@ -78,20 +80,47 @@ function alterPixel(pixelData) {
     const width = pixelData.width;
     const height = pixelData.height;
 
-    const x = Math.floor(Math.random() * width);
-    const y = Math.floor(Math.random() * height);
-    const idx = (y * width + x) * 4;
+    const maxAttempts = ALTER_ATTEMPTS;
+    let x, y, idx, brightness;
+    let attempt = 0;
+    let found = false;
 
-    const brightness = (data[idx] + data[idx+1] + data[idx+2]) / 3;
-    const delta = brightness < 128 ? 60 : -60;
+    while (attempt < maxAttempts) {
+        x = Math.floor(Math.random() * width);
+        y = Math.floor(Math.random() * height);
+        idx = (y * width + x) * 4;
+
+        brightness = (data[idx] + data[idx + 1] + data[idx + 2]) / 3;
+
+        if (brightness >= 30 && brightness <= 225) {
+            found = true;
+            break;
+        }
+        attempt++;
+    }
+
+    if (!found) {
+        console.warn("No mid-brightness pixel found, altering last attempted pixel");
+    }
+
     const channel = Math.floor(Math.random() * 3);
+    const original = data[idx + channel];
+    const minDelta = 40;
 
-    data[idx + channel] = Math.max(0, Math.min(255, data[idx + channel] + delta));
+    let direction = brightness < 128 ? 1 : -1;
+    let newValue = original + minDelta * direction;
+
+    if (newValue < 0 || newValue > 255) {
+        newValue = original - minDelta * direction;
+    }
+
+    newValue = Math.max(0, Math.min(255, newValue));
+    data[idx + channel] = newValue;
 
     return {
         alteredData: new ImageData(data, width, height),
         changed_pixel: { x, y, w: width, h: height },
-        debug: { x, y, channel, delta }
+        debug: { x, y, channel, original, newValue, change: newValue - original, brightness }
     };
 }
 
@@ -316,7 +345,6 @@ document.getElementById('canvasAltered').addEventListener('mousemove', (e) => {
 // Magnifying glass
 function getAdaptiveZoomFactor() {
     if (!gridInfo) {
-        console.log(`Didn't get grid info.`);
         return 1;
     }
 

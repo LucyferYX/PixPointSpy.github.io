@@ -130,11 +130,20 @@ function drawImageToCanvas(canvasId, dataUrl) {
     const ctx = canvas.getContext('2d');
     const img = new Image();
     img.crossOrigin = "anonymous";
+
     img.onload = () => {
         const scale = Math.min(1, MAX_CANVAS_WIDTH / img.width, MAX_CANVAS_HEIGHT / img.height);
 
-        const targetWidth = Math.max(1, Math.round(img.width * scale));
-        const targetHeight = Math.max(1, Math.round(img.height * scale));
+        let targetWidth = Math.round(img.width * scale);
+        let targetHeight = Math.round(img.height * scale);
+
+        if (gridInfo) {
+            const cellW = Math.floor(targetWidth / gridInfo.w);
+            const cellH = Math.floor(targetHeight / gridInfo.h);
+
+            targetWidth = cellW * gridInfo.w;
+            targetHeight = cellH * gridInfo.h;
+        }
 
         canvas.width = targetWidth;
         canvas.height = targetHeight;
@@ -147,6 +156,7 @@ function drawImageToCanvas(canvasId, dataUrl) {
 
         canvas.dataset.src = dataUrl;
     };
+
     img.src = dataUrl;
 }
 
@@ -322,7 +332,7 @@ mainCanvas.addEventListener('mouseup', e => {
 });
 
 mainCanvas.addEventListener('mousemove', e => {
-    if (!lensActive || !gameActive) {
+    if (!lensActive) {
         lensCanvas.style.display = 'none';
         return;
     }
@@ -443,7 +453,7 @@ function surrenderGame() {
         ctx.imageSmoothingEnabled = false;
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1;
         ctx.strokeStyle = 'red';
         ctx.strokeRect(
             gridInfo.x * cellWidth - 1,

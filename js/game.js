@@ -2,9 +2,15 @@ let currentImageUrl = '';
 let gridInfo = null;
 let gameActive = false;
 let lastClickTime = 0;
+let alteredPixelData = null;
 
+// Canvas size scaling
 const MAX_CANVAS_WIDTH = 420;
 const MAX_CANVAS_HEIGHT = 420;
+
+// Fetched image size
+const WIDTH = 640;
+const HEIGHT = 480;
 
 // Game statistics
 let currentLevel = 1;
@@ -18,10 +24,8 @@ let endTime = 0;
 
 // Return a random Lorem Picsum image
 function getRandomImageUrl() {
-  const width = 640;
-  const height = 480;
   const imgId = Math.floor(Math.random() * 1085);
-  return `https://picsum.photos/id/${imgId}/${width}/${height}`;
+  return `https://picsum.photos/id/${imgId}/${WIDTH}/${HEIGHT}`;
 }
 
 
@@ -115,6 +119,8 @@ async function generateGameImages(pixelCount) {
 
     const originalB64 = upscaleToCanvas(pixelData, img.width, img.height);
     const alteredB64 = upscaleToCanvas(alteredData, img.width, img.height);
+
+    alteredPixelData = alteredData;
 
     return { original: originalB64, altered: alteredB64, changed_pixel, debug };
 }
@@ -325,26 +331,36 @@ mainCanvas.addEventListener('mousemove', e => {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    const size = lensCanvas.width;
-    const zoomSize = size / zoomFactor;
+    const lensSize = lensCanvas.width;
+    const zoomFactor = 3; // Adjust as needed
+    const zoomSize = lensSize / zoomFactor;
 
-    lensCtx.clearRect(0, 0, lensCanvas.width, lensCanvas.height);
+    const ctxMain = mainCanvas.getContext('2d');
+    const imgData = ctxMain.getImageData(
+        Math.max(0, x - zoomSize / 2),
+        Math.max(0, y - zoomSize / 2),
+        zoomSize,
+        zoomSize
+    );
+
+    lensCtx.clearRect(0, 0, lensSize, lensSize);
     lensCtx.save();
-
     lensCtx.beginPath();
-    lensCtx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+    lensCtx.arc(lensSize / 2, lensSize / 2, lensSize / 2, 0, Math.PI * 2);
     lensCtx.clip();
 
+    // Draw the zoomed region (browser handles smoothing off)
+    lensCtx.imageSmoothingEnabled = false;
+    lensCtx.putImageData(imgData, 0, 0);
     lensCtx.drawImage(
-        mainCanvas,
-        x - zoomSize / 2, y - zoomSize / 2, zoomSize, zoomSize,
-        0, 0, size, size
+        lensCanvas,
+        0, 0, zoomSize, zoomSize,
+        0, 0, lensSize, lensSize
     );
 
     lensCtx.restore();
-
-    lensCanvas.style.left = `${e.clientX - size / 2}px`;
-    lensCanvas.style.top = `${e.clientY - size / 2}px`;
+    lensCanvas.style.left = `${e.clientX - lensSize / 2}px`;
+    lensCanvas.style.top = `${e.clientY - lensSize / 2}px`;
     lensCanvas.style.display = 'block';
 });
 

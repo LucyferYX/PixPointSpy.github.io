@@ -414,7 +414,7 @@ canvas {
 
 
 /* Magnifying glass */
-#lensCanvas {
+/* #lensCanvas {
     position: absolute;
     width: 200px;
     height: 200px;
@@ -424,7 +424,18 @@ canvas {
     box-shadow: 0 0 8px var(--glass-text-muted) !important;
     z-index: 1000;
     display: none;
+} */
+
+#lensCanvas {
+    border: 2px solid var(--btn-primary-bg);
+    box-shadow: 0 0 10px var(--glass-text-muted);
 }
+
+#lensCanvas {
+    width: 250px;
+    height: 250px;
+}
+
 
 
 /* Game info styling */

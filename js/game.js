@@ -15,6 +15,10 @@ const HEIGHT = 480;
 // Fallback image
 const FALLBACK_IMG = "https://i.imgur.com/TDwW2a4.png";
 
+// Pixel RGB change amount
+const minDelta = 40;
+const maxDelta = 200;
+
 // Game statistics
 let currentLevel = 1;
 let pixelCount = 3;
@@ -122,10 +126,12 @@ function alterPixel(pixelData) {
 
     const channel = Math.floor(Math.random() * 3);
     const original = data[idx + channel];
-    const minDelta = 40;
+
     const direction = brightness < 128 ? 1 : -1;
 
-    let newValue = original + minDelta * direction;
+    const delta = minDelta + Math.floor(Math.random() * (maxDelta - minDelta + 1));
+
+    let newValue = original + delta * direction;
     newValue = Math.max(0, Math.min(255, newValue));
     data[idx + channel] = newValue;
 
@@ -547,12 +553,10 @@ function saveFinalScore() {
     let scores = saved ? JSON.parse(saved) : [];
 
     scores.push(newScore);
-
-    // Sort descending by total score
     scores.sort((a, b) => b.score - a.score);
 
-    // Keep only top 10
-    if (scores.length > 10) scores = scores.slice(0, 10);
+    if (scores.length > 10) 
+        scores = scores.slice(0, 10);
 
     localStorage.setItem('pixPointSpyTopScores', JSON.stringify(scores));
 }
@@ -573,10 +577,13 @@ function loadStats() {
 // Play sounds when clicking on pixels
 function playSound(type) {
     let soundFile = "";
-    if (type === "correct") soundFile = "sounds/correct.mp3";
-    else if (type === "wrong") soundFile = "sounds/wrong.mp3";
+    if (type === "correct") 
+        soundFile = "sounds/correct.mp3";
+    else if (type === "wrong") 
+        soundFile = "sounds/wrong.mp3";
 
-    if (!soundFile) return;
+    if (!soundFile) 
+        return;
 
     const audio = new Audio(soundFile);
     audio.volume = 0.2;

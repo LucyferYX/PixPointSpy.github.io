@@ -12,6 +12,9 @@ const MAX_CANVAS_HEIGHT = 420;
 const WIDTH = 640;
 const HEIGHT = 480;
 
+// Fallback image
+const FALLBACK_IMG = "https://i.imgur.com/TDwW2a4.png";
+
 // Game statistics
 let currentLevel = 1;
 let pixelCount = 3;
@@ -24,13 +27,13 @@ let endTime = 0;
 
 // Return a random Lorem Picsum image
 function getRandomImageUrl() {
-  const imgId = Math.floor(Math.random() * 1085);
-  return `https://picsum.photos/id/${imgId}/${WIDTH}/${HEIGHT}`;
+    const imgId = Math.floor(Math.random() * 1085);
+    return `https://picsum.photos/id/${imgId}/${WIDTH}/${HEIGHT}`;
 }
 
 
 // Load image
-async function loadAndPrepareImage(url = null, maxRetries = 5) {
+async function loadAndPrepareImage(url = null, maxRetries = 5, timeoutMs = 1000) {
     let attempts = 0;
 
     while (attempts < maxRetries) {
@@ -42,15 +45,40 @@ async function loadAndPrepareImage(url = null, maxRetries = 5) {
 
         try {
             await new Promise((resolve, reject) => {
-                img.onload = resolve;
-                img.onerror = reject;
+                const timer = setTimeout(() => reject(new Error("timeout")), timeoutMs);
+                img.onload = () => {
+                    clearTimeout(timer);
+                    resolve();
+                };
+                img.onerror = (err) => {
+                    clearTimeout(timer);
+                    reject(err);
+                };
             });
 
             console.log(`Image loaded successfully: ${finalUrl}`);
             return img;
         } catch (err) {
-            console.warn(`Attempt ${attempts} failed for image: ${finalUrl}:`, err);
-            if (attempts >= maxRetries) throw new Error("Image failed to load after multiple attempts");
+            const isTimeout = err.message === "timeout";
+            console.warn(`Attempt failed for image: ${finalUrl}`, err);
+
+            // If timeout → immediate fallback (server likely down)
+            if (isTimeout || attempts >= maxRetries) {
+                console.warn("Using fallback image.");
+
+                const fallbackImg = new Image();
+                
+                fallbackImg.crossOrigin = "anonymous";
+                fallbackImg.src = FALLBACK_IMG;
+
+                await new Promise((res, rej) => {
+                    fallbackImg.onload = res;
+                    fallbackImg.onerror = rej;
+                });
+
+                return fallbackImg;
+            }
+
             await new Promise(r => setTimeout(r, 300));
         }
     }

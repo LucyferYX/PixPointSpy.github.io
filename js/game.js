@@ -4,8 +4,6 @@ let gameActive = false;
 let lastClickTime = 0;
 let alteredPixelData = null;
 
-const ALTER_ATTEMPTS = 30;
-
 // Canvas size scaling
 const MAX_CANVAS_WIDTH = 420;
 const MAX_CANVAS_HEIGHT = 420;
@@ -80,40 +78,26 @@ function alterPixel(pixelData) {
     const width = pixelData.width;
     const height = pixelData.height;
 
-    const maxAttempts = ALTER_ATTEMPTS;
-    let x, y, idx, brightness;
-    let attempt = 0;
-    let found = false;
+    const x = Math.floor(Math.random() * width);
+    const y = Math.floor(Math.random() * height);
+    const idx = (y * width + x) * 4;
 
-    while (attempt < maxAttempts) {
-        x = Math.floor(Math.random() * width);
-        y = Math.floor(Math.random() * height);
-        idx = (y * width + x) * 4;
+    let brightness = (data[idx] + data[idx + 1] + data[idx + 2]) / 3;
 
-        brightness = (data[idx] + data[idx + 1] + data[idx + 2]) / 3;
-
-        if (brightness >= 20 && brightness <= 235) {
-            found = true;
-            break;
+    if (brightness < 20 || brightness > 235) {
+        const adjustment = brightness < 128 ? 20 : -20;
+        for (let i = 0; i < 3; i++) {
+            data[idx + i] = Math.max(0, Math.min(255, data[idx + i] + adjustment));
         }
-        attempt++;
-    }
-
-    if (!found) {
-        console.warn("No mid-brightness pixel found, altering last attempted pixel");
+        brightness = (data[idx] + data[idx + 1] + data[idx + 2]) / 3;
     }
 
     const channel = Math.floor(Math.random() * 3);
     const original = data[idx + channel];
     const minDelta = 40;
+    const direction = brightness < 128 ? 1 : -1;
 
-    let direction = brightness < 128 ? 1 : -1;
     let newValue = original + minDelta * direction;
-
-    if (newValue < 0 || newValue > 255) {
-        newValue = original - minDelta * direction;
-    }
-
     newValue = Math.max(0, Math.min(255, newValue));
     data[idx + channel] = newValue;
 
@@ -123,6 +107,7 @@ function alterPixel(pixelData) {
         debug: { x, y, channel, original, newValue, change: newValue - original, brightness }
     };
 }
+
 
 function upscaleToCanvas(imageData, targetWidth, targetHeight) {
     const smallCanvas = document.createElement('canvas');
@@ -216,6 +201,8 @@ setInterval(() => {
 async function nextLevel() {
     if (!gameActive) 
         return;
+
+    console.log(`Level: ${currentLevel}`);
 
     const overlay = document.getElementById('loadingOverlay');
     overlay.classList.add('active');
@@ -612,6 +599,7 @@ document.getElementById('startBtn').addEventListener('click', () => {
     }
 
     startGame();
+    console.log(`Starting new game!`);
 });
 
 document.getElementById('hintBtn').addEventListener('click', showHint);

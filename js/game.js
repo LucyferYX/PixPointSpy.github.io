@@ -92,7 +92,7 @@ function alterPixel(pixelData) {
 
         brightness = (data[idx] + data[idx + 1] + data[idx + 2]) / 3;
 
-        if (brightness >= 30 && brightness <= 225) {
+        if (brightness >= 20 && brightness <= 235) {
             found = true;
             break;
         }
